@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="162.0">Model.Game.Attaquant</node>
+    <node x="193.5" y="81.0">Model.Game.Amiral</node>
+    <node x="0.0" y="319.0">Model.Communication.ServeurThread</node>
+    <node x="330.0" y="238.0">Model.Communication.ServerTCP</node>
+    <node x="0.0" y="395.0">Model.Game.Equipe</node>
+    <node x="138.0" y="395.0">Model.Game.Partie</node>
+    <node x="196.0" y="238.0">Model.Game.Case</node>
+    <node x="25.0" y="238.0">java.lang.Thread</node>
+    <node x="136.75" y="0.0">Model.Game.Joueur</node>
+    <node x="75.5" y="81.0">Model.Game.Matelot</node>
+    <node x="189.0" y="319.0">Model.Game.Bateau</node>
+    <node x="134.0" y="162.0">Model.Game.Defenseur</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Model.Game.Bateau" target="Model.Game.Case">
+      <point x="0.0" y="-15.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="Model.Game.Defenseur" target="Model.Game.Matelot">
+      <point x="0.0" y="-15.5" />
+      <point x="192.0" y="137.0" />
+      <point x="149.0" y="137.0" />
+      <point x="24.5" y="15.5" />
+    </edge>
+    <edge source="Model.Game.Matelot" target="Model.Game.Joueur">
+      <point x="0.0" y="-15.5" />
+      <point x="124.5" y="56.0" />
+      <point x="159.25" y="56.0" />
+      <point x="-22.5" y="15.5" />
+    </edge>
+    <edge source="Model.Communication.ServeurThread" target="java.lang.Thread">
+      <point x="0.0" y="-15.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="Model.Game.Attaquant" target="Model.Game.Matelot">
+      <point x="0.0" y="-15.5" />
+      <point x="57.0" y="137.0" />
+      <point x="100.0" y="137.0" />
+      <point x="-24.5" y="15.5" />
+    </edge>
+    <edge source="Model.Game.Amiral" target="Model.Game.Joueur">
+      <point x="0.0" y="-15.5" />
+      <point x="239.0" y="56.0" />
+      <point x="204.25" y="56.0" />
+      <point x="22.5" y="15.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="182.0" y="175.0" />
+  <SelectedNodes>
+    <node>Model.Communication.ServeurThread</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
