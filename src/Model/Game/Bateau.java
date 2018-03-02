@@ -1,4 +1,5 @@
 package Model.Game;
 
-public class Bateau extends Case {
+class Bateau extends Case {
+    private Case[] positions;
 }

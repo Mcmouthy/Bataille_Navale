@@ -1,4 +1,5 @@
 package Model.Game;
 
-public class Joueur {
+abstract class Joueur {
+    private String pseudo;
 }
