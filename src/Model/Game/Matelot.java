@@ -1,4 +1,5 @@
 package Model.Game;
 
-public class Matelot extends Joueur {
+class Matelot extends Joueur {
+    private java.util.List<Bateau> bateauxAssignes;
 }
