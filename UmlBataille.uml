@@ -3,56 +3,87 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="530.0" y="231.0">Model.Game.Attaquant</node>
-    <node x="811.0" y="104.0">Model.Game.Amiral</node>
-    <node x="164.5" y="817.0">Model.Communication.ServeurThread</node>
-    <node x="0.0" y="1084.0">Model.Communication.ServerTCP</node>
-    <node x="0.0" y="893.0">Model.Game.Etat</node>
-    <node x="139.0" y="893.0">Model.Game.Equipe</node>
-    <node x="824.0" y="893.0">Model.Game.Partie</node>
-    <node x="1038.0" y="893.0">Model.Game.Plateau</node>
-    <node x="646.0" y="893.0">Model.Game.Case</node>
-    <node x="161.0" y="1084.0">Model.Communication.ClientTCP</node>
-    <node x="0.0" y="0.0">java.lang.Thread</node>
-    <node x="737.75" y="0.0">Model.Game.Joueur</node>
-    <node x="518.0" y="115.5">Model.Game.Matelot</node>
-    <node x="407.0" y="893.0">Model.Game.Bateau</node>
-    <node x="664.0" y="231.0">Model.Game.Defenseur</node>
+    <node x="136.0" y="162.0">Model.Game.Attaquant</node>
+    <node x="194.5" y="81.0">Model.Game.Amiral</node>
+    <node x="0.0" y="476.0">Model.Communication.ServeurThread</node>
+    <node x="189.0" y="395.0">Model.Communication.ServerTCP</node>
+    <node x="259.0" y="552.0">Model.Game.Etat</node>
+    <node x="789.0" y="395.0">Model.Game.Equipe</node>
+    <node x="700.0" y="319.0">Model.Exception.UnAuthorizeDeplacementException</node>
+    <node x="378.5" y="238.0">java.lang.Exception</node>
+    <node x="0.0" y="552.0">Model.Game.Partie</node>
+    <node x="226.0" y="319.0">Model.Exception.CantShootException</node>
+    <node x="505.0" y="395.0">Model.Game.Plateau</node>
+    <node x="426.0" y="319.0">Model.Exception.PlacementCoinToucheException</node>
+    <node x="132.0" y="552.0">Model.Game.Case</node>
+    <node x="350.0" y="395.0">Model.Communication.ClientTCP</node>
+    <node x="25.0" y="395.0">java.lang.Thread</node>
+    <node x="76.5" y="81.0">Model.Game.Matelot</node>
+    <node x="137.75" y="0.0">Model.Game.Joueur</node>
+    <node x="0.0" y="162.0">Model.Game.Defenseur</node>
+    <node x="648.0" y="395.0">Model.Game.Bateau</node>
+    <node x="0.0" y="319.0">Model.Exception.NotDeplacableException</node>
   </nodes>
   <notes />
   <edges>
+    <edge source="Model.Exception.PlacementCoinToucheException" target="java.lang.Exception">
+      <point x="0.0" y="-15.5" />
+      <point x="553.0" y="299.0" />
+      <point x="448.5" y="299.0" />
+      <point x="14.0" y="15.5" />
+    </edge>
     <edge source="Model.Game.Defenseur" target="Model.Game.Matelot">
       <point x="0.0" y="-15.5" />
-      <point x="68.25" y="27.0" />
+      <point x="58.0" y="137.0" />
+      <point x="101.0" y="137.0" />
+      <point x="-24.5" y="15.5" />
+    </edge>
+    <edge source="Model.Exception.NotDeplacableException" target="java.lang.Exception">
+      <point x="0.0" y="-15.5" />
+      <point x="103.0" y="289.0" />
+      <point x="392.5" y="289.0" />
+      <point x="-42.0" y="15.5" />
     </edge>
     <edge source="Model.Game.Matelot" target="Model.Game.Joueur">
-      <point x="0.0" y="-27.0" />
-      <point x="654.5" y="79.0" />
-      <point x="777.5" y="79.0" />
-      <point x="-39.75" y="27.0" />
+      <point x="0.0" y="-15.5" />
+      <point x="125.5" y="56.0" />
+      <point x="160.25" y="56.0" />
+      <point x="-22.5" y="15.5" />
     </edge>
     <edge source="Model.Communication.ServeurThread" target="java.lang.Thread">
       <point x="0.0" y="-15.5" />
-      <point x="0.0" y="383.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="Model.Exception.UnAuthorizeDeplacementException" target="java.lang.Exception">
+      <point x="0.0" y="-15.5" />
+      <point x="838.5" y="289.0" />
+      <point x="476.5" y="289.0" />
+      <point x="42.0" y="15.5" />
+    </edge>
+    <edge source="Model.Exception.CantShootException" target="java.lang.Exception">
+      <point x="0.0" y="-15.5" />
+      <point x="316.0" y="299.0" />
+      <point x="420.5" y="299.0" />
+      <point x="-14.0" y="15.5" />
     </edge>
     <edge source="Model.Game.Attaquant" target="Model.Game.Matelot">
       <point x="0.0" y="-15.5" />
-      <point x="-68.25" y="27.0" />
+      <point x="193.0" y="137.0" />
+      <point x="150.0" y="137.0" />
+      <point x="24.5" y="15.5" />
     </edge>
     <edge source="Model.Game.Amiral" target="Model.Game.Joueur">
-      <point x="0.0" y="-38.5" />
-      <point x="980.0" y="79.0" />
-      <point x="857.0" y="79.0" />
-      <point x="39.75" y="27.0" />
+      <point x="0.0" y="-15.5" />
+      <point x="240.0" y="56.0" />
+      <point x="205.25" y="56.0" />
+      <point x="22.5" y="15.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.9263702171664943" x="542.9498772047332" y="900.7281759321277" />
+  <settings layout="Hierarchic Group" zoom="0.9263702171664943" x="540.7909131502568" y="254.72817593212773" />
   <SelectedNodes>
-    <node>Model.Game.Equipe</node>
+    <node>Model.Exception.UnAuthorizeDeplacementException</node>
   </SelectedNodes>
-  <Categories>
-    <Category>Fields</Category>
-  </Categories>
+  <Categories />
   <SCOPE>All</SCOPE>
   <VISIBILITY>private</VISIBILITY>
 </Diagram>
