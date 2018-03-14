@@ -16,10 +16,11 @@ public class Plateau {
     }
 
     public Case getPreciseCase(Case lacase) {
-        return null;
+        return plateau[lacase.getX()][lacase.getY()];
     }
 
     public Etat changeEtatCase(Case lacase, Etat etat) {
-        return null;
+        getPreciseCase(lacase).setState(etat);
+        return getPreciseCase(lacase).getState();
     }
 }
