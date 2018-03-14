@@ -37,6 +37,11 @@ public class Amiral extends Joueur {
     }
 
     public boolean addAssignation(Matelot matelot, Bateau bateau) {
+        if (!matelot.getBateauxAssignes().contains(bateau)){
+            assignations.put(matelot,bateau);
+            matelot.addBateau(bateau);
+            return true;
+        }
         return false;
     }
 
