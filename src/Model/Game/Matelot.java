@@ -3,7 +3,7 @@ package Model.Game;
 import java.util.List;
 
 class Matelot extends Joueur {
-    private java.util.List<Bateau> bateauxAssignes;
+    private List<Bateau> bateauxAssignes;
 
     Matelot(String pseudo, List<Bateau> bateauxAssignes) {
         super(pseudo);
