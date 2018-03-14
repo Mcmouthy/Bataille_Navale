@@ -23,5 +23,8 @@ class Matelot extends Joueur {
     }
 
 
+    public void removeBateau(Bateau bateau) {
+        bateauxAssignes.remove(bateau);
+    }
 }
 

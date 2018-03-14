@@ -41,7 +41,8 @@ public class Amiral extends Joueur {
     public boolean addAssignation(Matelot matelot, Bateau bateau) throws NoPlaceAvailableOnShipException {
         if (assignations.containsKey(bateau)){
             if (checkMatelotInArray(assignations.get(bateau),matelot)){
-                addMatelotsInArray(assignations.get(bateau), matelot);
+                //ADD bateau
+                addMatelotsInArray(assignations.get(bateau),matelot);
                 matelot.addBateau(bateau);
                 return true;
             }
@@ -67,12 +68,43 @@ public class Amiral extends Joueur {
         return false;
     }
 
+    private void removeMatelotsInArray(Matelot[] matelots, Matelot matelot) {
+        for (int i=0;i<matelots.length;i++) {
+            if (matelots[i].equals(matelot)){
+                matelots[i]=null;
+                return;
+            }
+        }
+    }
     public boolean removeAssignation(Matelot matelot, Bateau bateau) {
+        if (assignations.containsKey(bateau)){
+            if (checkMatelotInArray(assignations.get(bateau),matelot)){
+                //REMOVE bateau
+                removeMatelotsInArray(assignations.get(bateau), matelot);
+                matelot.removeBateau(bateau);
+                return true;
+            }
 
+        }
         return false;
     }
 
-    public boolean changeAssignation(Matelot matelot, Bateau bateau) {
+    public boolean changeAssignation(Matelot matelot, Bateau bateauOld, Bateau bateauNew) throws NoPlaceAvailableOnShipException {
+        if (assignations.containsKey(bateauOld)){
+
+            if (checkMatelotInArray(assignations.get(bateauOld),matelot)){
+                //REMOVE bateauOLD
+                removeMatelotsInArray(assignations.get(bateauOld), matelot);
+                matelot.removeBateau(bateauOld);
+
+                //ADD bateauNew
+                addMatelotsInArray(assignations.get(bateauNew),matelot);
+                matelot.addBateau(bateauNew);
+
+                return true;
+            }
+
+        }
         return false;
     }
 }
