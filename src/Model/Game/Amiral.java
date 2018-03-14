@@ -1,5 +1,7 @@
 package Model.Game;
 
+import Model.Exception.NoPlaceAvailableOnShipException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,16 +38,37 @@ public class Amiral extends Joueur {
         this.lesBateaux = lesBateaux;
     }
 
-    public boolean addAssignation(Matelot matelot, Bateau bateau) {
-        if (!matelot.getBateauxAssignes().contains(bateau)){
-            assignations.put(matelot,bateau);
-            matelot.addBateau(bateau);
-            return true;
+    public boolean addAssignation(Matelot matelot, Bateau bateau) throws NoPlaceAvailableOnShipException {
+        if (assignations.containsKey(bateau)){
+            if (checkMatelotInArray(assignations.get(bateau),matelot)){
+                addMatelotsInArray(assignations.get(bateau), matelot);
+                matelot.addBateau(bateau);
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    private void addMatelotsInArray(Matelot[] matelots, Matelot matelot)throws NoPlaceAvailableOnShipException {
+        for (int i=0;i<matelots.length;i++) {
+            if (matelots[i]==null){
+                matelots[i]=matelot;
+                return;
+            }
+        }
+        throw new NoPlaceAvailableOnShipException();
+    }
+
+    private boolean checkMatelotInArray(Matelot[] matelots, Matelot matelot) {
+        for (Matelot m: matelots) {
+            if (m.equals(matelot)) return true;
         }
         return false;
     }
 
     public boolean removeAssignation(Matelot matelot, Bateau bateau) {
+
         return false;
     }
 
