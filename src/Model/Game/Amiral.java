@@ -6,18 +6,18 @@ import java.util.List;
 
 public class Amiral extends Joueur {
     private List<Bateau> lesBateaux;
-    private HashMap<Matelot, Bateau> assignations;
+    private List<Matelot> lesMatelots;
 
-    public Amiral(String pseudo, List<Bateau> lesBateaux, HashMap<Matelot, Bateau> assignations) {
+    public Amiral(String pseudo, List<Bateau> lesBateaux, List<Matelot> assignations) {
         super(pseudo);
         this.lesBateaux = lesBateaux;
-        this.assignations = assignations;
+        this.lesMatelots = assignations;
     }
 
     public Amiral(String pseudo) {
         super(pseudo);
         this.lesBateaux = new ArrayList<>();
-        this.assignations = new HashMap<>();
+        this.lesMatelots = new ArrayList<>();
     }
 
     public List<Bateau> getLesBateaux() {
@@ -28,12 +28,12 @@ public class Amiral extends Joueur {
         this.lesBateaux = lesBateaux;
     }
 
-    public HashMap<Matelot, Bateau> getAssignations() {
-        return assignations;
+    public List<Matelot> getLesMatelots() {
+        return lesMatelots;
     }
 
-    public void setAssignations(HashMap<Matelot, Bateau> assignations) {
-        this.assignations = assignations;
+    public void setLesMatelots(List<Matelot> lesMatelots) {
+        this.lesMatelots = lesMatelots;
     }
 
     public boolean addAssignation(Matelot matelot, Bateau bateau) {
