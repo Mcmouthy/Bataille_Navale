@@ -19,6 +19,7 @@ class Matelot extends Joueur {
     }
 
     public void addBateau(Bateau bateau) {
+        bateauxAssignes.add(bateau);
     }
 
 
