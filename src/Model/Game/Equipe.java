@@ -52,8 +52,10 @@ class Equipe {
     }
 
     public void addJoueur(Joueur joueur) {
+        lesJoueurs.add(joueur);
     }
 
     public void addBateau(Bateau bateau) {
+        bateauxEquipe.add(bateau);
     }
 }
