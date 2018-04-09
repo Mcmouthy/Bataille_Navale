@@ -68,7 +68,7 @@ public class Amiral extends Joueur {
                 matelots[poste]=matelot;
                 return;
             }
-            throw new NoPlaceAvailableOnShipException("Pas de place disponible dans ce bateau");
+            throw new NoPlaceAvailableOnShipException();
 
         }
     }
