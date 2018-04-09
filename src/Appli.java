@@ -19,10 +19,7 @@ public class Appli extends Application{
         Matelot m2 = new Defenseur("toto",null);
         Matelot m3 = new Attaquant("titi",null);
         Matelot m4 = new Attaquant("tata",null);
-        ArrayList<Matelot> mat= new ArrayList<>();
-        mat.addAll(Arrays.asList(new Matelot[]{m1, m2, m3, m4}));
-        Equipe equipe1 = new Equipe(amiral,mat);
-        equipe1.getPlateau().initPlateau();
+
 
         Bateau s1= new Bateau("S1",false,true,1);
         Bateau s2= new Bateau("S2",false,true,1);
@@ -35,7 +32,12 @@ public class Appli extends Application{
         Bateau c2= new Bateau("C2",false,true,3);
         Bateau cu= new Bateau("Cu",false,true,4);
 
-
+        amiral.addAssignation(m1,s1,amiral.ATT);
+        amiral.addAssignation(m1,s2,amiral.DEF);
+        ArrayList<Matelot> mat= new ArrayList<>();
+        mat.addAll(Arrays.asList(new Matelot[]{m1, m2, m3, m4}));
+        Equipe equipe1 = new Equipe(amiral,mat);
+        equipe1.getPlateau().initPlateau();
         Partie model =new Partie(equipe1,equipe1);
         equipe1.getBateauxEquipe().addAll(Arrays.asList( new Bateau[]{s1,s2,s3,s4,t1,t2,t3,c1,c2,cu}));
         AmiralController amiralController = new AmiralController(primaryStage,model);

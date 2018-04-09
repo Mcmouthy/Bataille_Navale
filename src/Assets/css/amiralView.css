@@ -1,10 +1,9 @@
 #assignations_tab{
-    -fx-background-color: lightgray;
     -fx-border-width: 1px;
 }
 .assignationsGrid{
     -fx-padding: 0 50 0 20;
-    -fx-border-color: black;
+    -fx-width: 100%;
 }
 
 .assignationCell{
@@ -38,6 +37,10 @@
 .leftSideScreen{
     -fx-padding: 20 0 0 20;
     -fx-spacing: 50;
+}
+
+.rightSideScreen{
+
 }
 #panneau{
     -fx-alignment: center;

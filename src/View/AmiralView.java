@@ -10,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.Map;
 
 
 public class AmiralView {
@@ -20,13 +21,13 @@ public class AmiralView {
     private Equipe equipeAdverse;
     private boolean placementBateau = true;
     private Button[][] tableau;
-    private GridPane assignationsPanel;
+    private VBox assignationsPanel;
     private Label bateauxAdversesLabel;
     private Label bateauxAlliesLabel;
     private VBox affichageNavireAlliePane;
     private VBox affichageNavireAdversePane;
     private VBox leftSideScreenDisplay;
-
+    private VBox rightSideScreenDisplay;
 
 
 
@@ -45,21 +46,88 @@ public class AmiralView {
     private void initAttributes() {
 
         stage.getScene().getStylesheets().add(new File("src/Assets/css/amiralView.css").toURI().toString());
-        tableau = new Button[10][10];
+        //initialize 2-D array for all buttons
         initTableauButton();
-        assignationsPanel = new GridPane();
-        assignationsPanel.setId("assignations_tab");
-        assignationsPanel.getStyleClass().add("assignationsGrid");
+
+        //initiamize left side display for ally and ennemy ship
+        initLeftSideScreenDisplay();
+
+        //initialize central gridpane for buttons
+        /*NOTE remove this once initRightSideScreenDisplay is done*/
+        //initGridPaneArray();
+
+        //initialize rightside screen for assignations
+        initRightSideScreenDisplay();
+
+
+    }
+
+    private void initLeftSideScreenDisplay() {
         bateauxAdversesLabel = new Label("Navires Adverses");
         bateauxAdversesLabel.getStyleClass().add("NavLabel");
         bateauxAlliesLabel = new Label("Navires Alliés");
         bateauxAlliesLabel.getStyleClass().add("NavLabel");
-        initGridPaneArray();
         initNaviresAdversesPane();
         initNaviresAlliesPane();
         leftSideScreenDisplay = new VBox();
         leftSideScreenDisplay.getChildren().addAll(affichageNavireAlliePane,affichageNavireAdversePane);
         leftSideScreenDisplay.getStyleClass().add("leftSideScreen");
+
+    }
+
+    private void initRightSideScreenDisplay() {
+
+        rightSideScreenDisplay = new VBox();
+        rightSideScreenDisplay.setId("assignations_tab");
+        rightSideScreenDisplay.getStyleClass().add("assignationsGrid");
+        rightSideScreenDisplay.setSpacing(10);
+        Label lab = new Label("Navire");
+        lab.getStyleClass().addAll("assignationCell","assignationHeader");
+        Label role = new Label("Rôle");
+        role.getStyleClass().addAll("assignationCell","assignationHeader");
+        Label assign = new Label("Joueur");
+        assign.getStyleClass().addAll("assignationCell","assignationHeader");
+        HBox row = new HBox();
+        row.getChildren().addAll(lab,role,assign);
+        row.setId("AssignationHead");
+        row.setSpacing(5);
+        rightSideScreenDisplay.getChildren().add(row);
+        int k=0;
+        System.out.println(amiral.getAssignations().size());
+        for(Map.Entry<Bateau, Matelot[]> entry : amiral.getAssignations().entrySet()) {
+            Bateau cle = entry.getKey();
+            Matelot[] valeur = entry.getValue();
+            lab = new Label(cle.getNomNavire());
+            lab.getStyleClass().add("assignationCell");
+            role = new Label(valeur[0].getTypeMatelot());
+            role.getStyleClass().add("assignationCell");
+            Label nomJoueur = new Label(valeur[0].getPseudo());
+            nomJoueur.getStyleClass().add("assignationsCell");
+            row = new HBox();
+            row.getChildren().addAll(lab,role,nomJoueur);
+            row.setId("ligne#"+k);
+            k++;
+            row.setSpacing(2);
+            rightSideScreenDisplay.getChildren().add(row);
+
+        }
+        for (int i=0;i<10;i++)
+        {
+            lab = new Label("test" + i);
+            lab.getStyleClass().add("assignationCell");
+            role = new Label("Att" + i);
+            role.getStyleClass().add("assignationCell");
+            ComboBox<String> nomJoueur = new ComboBox<>();
+            nomJoueur.getStyleClass().add("assignationsCell");
+            nomJoueur.getItems().addAll("truc", "machin", "chose");
+            row = new HBox();
+            row.getChildren().addAll(lab,role,nomJoueur);
+            row.setId("ligne#"+i);
+            row.setSpacing(2);
+            rightSideScreenDisplay.getChildren().add(row);
+
+        }
+
 
 
     }
@@ -110,31 +178,15 @@ public class AmiralView {
     }
 
     private void initGridPaneArray() {
-        Label lab = new Label("Navire");
-        lab.getStyleClass().addAll("assignationCell","assignationHeader");
-        Label role = new Label("Rôle");
-        role.getStyleClass().addAll("assignationCell","assignationHeader");
-        Label assign = new Label("Joueur");
-        assign.getStyleClass().addAll("assignationCell","assignationHeader");
-        assignationsPanel.add(lab,0,0);
-        assignationsPanel.add(role,1,0);
-        assignationsPanel.add(assign,2,0);
+
         for (int i=1; i<10;i++)
         {
-            lab = new Label("test" + i);
-            lab.getStyleClass().add("assignationCell");
-            role = new Label("Att" + i);
-            role.getStyleClass().add("assignationCell");
-            ComboBox<String> nomJoueur = new ComboBox<>();
-            nomJoueur.getStyleClass().add("assignationsCell");
-            nomJoueur.getItems().addAll("truc", "machin", "chose");
-            assignationsPanel.add(lab,0,i);
-            assignationsPanel.add(role,1,i);
-            assignationsPanel.add(nomJoueur,2,i);
+
         }
     }
 
     private void initTableauButton() {
+        tableau = new Button[10][10];
         for (int i=0;i<10;i++){
             for (int j=0;j<10;j++){
                 tableau[i][j] = new Button();
@@ -147,7 +199,7 @@ public class AmiralView {
         stage.getScene().getRoot().setVisible(false);
 
         ((BorderPane) stage.getScene().getRoot()).getChildren().clear();
-        ((BorderPane) stage.getScene().getRoot()).setRight(assignationsPanel);
+        ((BorderPane) stage.getScene().getRoot()).setRight(rightSideScreenDisplay);
 
         GridPane panneau = new GridPane();
         panneau.setId("panneau");
