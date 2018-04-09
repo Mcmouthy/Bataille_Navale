@@ -1,9 +1,13 @@
 package Model.Exception;
 
 public class CantShootException extends Exception {
+    private String message;
     public CantShootException(){
+        message="impossible de tirer, le canon est en cours de rechargement !";
+    }
 
-        System.out.println("Vous n'avez pas le droit de tirer !");
-
+    @Override
+    public String getMessage() {
+        return message;
     }
 }
