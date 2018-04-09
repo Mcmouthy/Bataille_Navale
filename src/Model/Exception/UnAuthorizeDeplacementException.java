@@ -1,8 +1,13 @@
 package Model.Exception;
 
 public class UnAuthorizeDeplacementException extends Exception {
+    private String message;
     public UnAuthorizeDeplacementException(){
-        System.out.println("Déplacement interdit !");
-        
+        message = "Déplacement interdit !";
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }
