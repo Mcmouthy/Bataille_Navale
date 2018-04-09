@@ -2,10 +2,10 @@ package Model.Game;
 
 import java.util.List;
 
-class Matelot extends Joueur {
+public class Matelot extends Joueur {
     private List<Bateau> bateauxAssignes;
 
-    Matelot(String pseudo, List<Bateau> bateauxAssignes) {
+    public Matelot(String pseudo, List<Bateau> bateauxAssignes) {
         super(pseudo);
         this.bateauxAssignes = bateauxAssignes;
     }
@@ -26,5 +26,7 @@ class Matelot extends Joueur {
     public void removeBateau(Bateau bateau) {
         bateauxAssignes.remove(bateau);
     }
+
+    public String getTypeMatelot(){return "";}
 }
 

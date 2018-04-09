@@ -19,4 +19,9 @@ public class Defenseur extends Matelot {
         }
 
     }
+
+    @Override
+    public String getTypeMatelot(){
+        return "Defenseur";
+    }
 }

@@ -1,0 +1,71 @@
+#assignations_tab{
+    -fx-background-color: lightgray;
+    -fx-border-width: 1px;
+}
+.assignationsGrid{
+    -fx-padding: 0 50 0 20;
+    -fx-border-color: black;
+}
+
+.assignationCell{
+    -fx-padding: 0 5 0 5;
+    -fx-border-color: black;
+    -fx-border-width: 1 1 1 1;
+    -fx-font-size: 18;
+}
+
+.assignationHeader{
+    -fx-padding: 0 5 0 5;
+}
+
+.navireAllie{
+    -fx-fill: lightblue;
+}
+.navireAdverse{
+    -fx-fill: rgba(255, 2, 5, 0.64);
+}
+.navireSquare{
+    -fx-spacing: 5;
+}
+.navireOK{
+}
+
+.NavLabel{
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 10 0;
+}
+
+.leftSideScreen{
+    -fx-padding: 20 0 0 20;
+    -fx-spacing: 50;
+}
+#panneau{
+    -fx-alignment: center;
+    -fx-vgap: 0.3em;
+}
+.letterIndic{
+    -fx-padding: 0 20 0 20;
+}
+.digitIndic{
+    -fx-padding: 0 10 0 0;
+}
+.row{
+    -fx-spacing: 5px;
+}
+.rowDigit{
+    -fx-padding: 2 5 2 5;
+    -fx-alignment: center;
+}
+
+.caseButton{
+    -fx-pref-width: 50px;
+    -fx-pref-height: 50px;
+}
+
+#afficheAdverse{
+
+}
+
+#afficheAllie{
+
+}

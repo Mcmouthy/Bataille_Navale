@@ -3,22 +3,35 @@ package Model.Game;
 import Model.Exception.NotDeplacableException;
 import Model.Exception.UnAuthorizeDeplacementException;
 
-class Bateau {
+public class Bateau {
+    private int taille;
     private Case[] positions;
     private boolean recharge;
     private boolean deplacable = true;
+    private String nomNavire;
 
-    public Bateau(Case[] positions, boolean recharge)
+    public Bateau(String nomNavire,Case[] positions, boolean recharge, int taille)
     {
+        this.nomNavire = nomNavire;
         this.positions = positions;
         this.recharge = recharge;
+        this.taille = taille;
     }
 
-    public Bateau(Case[] positions, boolean recharge,boolean deplacable)
+    public Bateau(String nomNavire,Case[] positions, boolean recharge,boolean deplacable, int taille)
     {
+        this.nomNavire = nomNavire;
         this.positions = positions;
         this.recharge = recharge;
         this.deplacable = deplacable;
+        this.taille = taille;
+    }
+
+    public Bateau(String nomNavire,boolean recharge,boolean deplacable,int taille){
+        this.nomNavire = nomNavire;
+        this.recharge = recharge;
+        this.deplacable = deplacable;
+        this.taille = taille;
     }
 
     public Case[] getPositions() {
@@ -45,6 +58,14 @@ class Bateau {
         this.deplacable = deplacable;
     }
 
+    public String getNomNavire() {
+        return nomNavire;
+    }
+
+    public void setNomNavire(String nomNavire) {
+        this.nomNavire = nomNavire;
+    }
+
     public void deplacementHorizontal(int deplace){
         for (int i=0; i<positions.length;i++){
             positions[i].setX(positions[i].getX()+deplace);
@@ -56,6 +77,18 @@ class Bateau {
         for (int i=0; i<positions.length;i++){
             positions[i].setY(positions[i].getY()+deplace);
         }
+    }
+
+    public String toString(){
+        return getNomNavire();
+    }
+
+    public int getTailleNavire() {
+        return taille;
+    }
+
+    public void setTaille(int taille) {
+        this.taille = taille;
     }
 
     /*MOVE TO CONTROLLER*/

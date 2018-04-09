@@ -1,6 +1,6 @@
 package Model.Game;
 
-class Case {
+public class Case {
     private int x;
     private int y;
     private Etat state;

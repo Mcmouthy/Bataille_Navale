@@ -1,6 +1,6 @@
 package Model.Game;
 
-abstract class Joueur {
+public abstract class Joueur {
     private String pseudo;
 
     Joueur(String pseudo) {
@@ -14,4 +14,5 @@ abstract class Joueur {
     public void setPseudo(String pseudo) {
         this.pseudo = pseudo;
     }
+
 }
