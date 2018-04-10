@@ -15,10 +15,10 @@ public class Appli extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         Amiral amiral = new Amiral("Paulo");
-        Matelot m1 = new Attaquant("polux",null);
-        Matelot m2 = new Defenseur("toto",null);
-        Matelot m3 = new Attaquant("titi",null);
-        Matelot m4 = new Attaquant("tata",null);
+        Matelot m1 = new Attaquant("polux",new ArrayList<>());
+        Matelot m2 = new Defenseur("toto",new ArrayList<>());
+        Matelot m3 = new Attaquant("titi",new ArrayList<>());
+        Matelot m4 = new Attaquant("tata",new ArrayList<>());
 
 
         Bateau s1= new Bateau("S1",false,true,1);
@@ -32,8 +32,10 @@ public class Appli extends Application{
         Bateau c2= new Bateau("C2",false,true,3);
         Bateau cu= new Bateau("Cu",false,true,4);
 
-        amiral.addAssignation(m1,s1,amiral.ATT);
-        amiral.addAssignation(m1,s2,amiral.DEF);
+        amiral.addAssignation(m1,s1,Amiral.ATT);
+        amiral.addAssignation(m1,s2,Amiral.DEF);
+        amiral.addAssignation(m3,s1,Amiral.DEF);
+        //amiral.addAssignation(m4,s1,Amiral.ATT);
         ArrayList<Matelot> mat= new ArrayList<>();
         mat.addAll(Arrays.asList(new Matelot[]{m1, m2, m3, m4}));
         Equipe equipe1 = new Equipe(amiral,mat);

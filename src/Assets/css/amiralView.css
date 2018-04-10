@@ -2,12 +2,15 @@
     -fx-border-width: 1px;
 }
 .assignationsGrid{
-    -fx-padding: 0 50 0 20;
-    -fx-width: 100%;
+    -fx-padding: 20 80 0 0;
+    -fx-alignment: center;
 }
 
 .assignationCell{
     -fx-padding: 0 5 0 5;
+    -fx-pref-width: 110px;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
     -fx-border-color: black;
     -fx-border-width: 1 1 1 1;
     -fx-font-size: 18;
@@ -15,6 +18,11 @@
 
 .assignationHeader{
     -fx-padding: 0 5 0 5;
+    -fx-alignment: center;
+}
+
+.rowAssignation{
+    -fx-alignment: center;
 }
 
 .navireAllie{
@@ -35,8 +43,9 @@
 }
 
 .leftSideScreen{
-    -fx-padding: 20 0 0 20;
+    -fx-padding: 0 0 0 50;
     -fx-spacing: 50;
+    -fx-alignment: center;
 }
 
 .rightSideScreen{
@@ -52,9 +61,7 @@
 .digitIndic{
     -fx-padding: 0 10 0 0;
 }
-.row{
-    -fx-spacing: 5px;
-}
+
 .rowDigit{
     -fx-padding: 2 5 2 5;
     -fx-alignment: center;

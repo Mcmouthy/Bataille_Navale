@@ -1,6 +1,7 @@
 package View;
 import Model.Game.*;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -80,7 +81,7 @@ public class AmiralView {
         rightSideScreenDisplay = new VBox();
         rightSideScreenDisplay.setId("assignations_tab");
         rightSideScreenDisplay.getStyleClass().add("assignationsGrid");
-        rightSideScreenDisplay.setSpacing(10);
+
         Label lab = new Label("Navire");
         lab.getStyleClass().addAll("assignationCell","assignationHeader");
         Label role = new Label("Rôle");
@@ -90,45 +91,30 @@ public class AmiralView {
         HBox row = new HBox();
         row.getChildren().addAll(lab,role,assign);
         row.setId("AssignationHead");
-        row.setSpacing(5);
         rightSideScreenDisplay.getChildren().add(row);
         int k=0;
-        System.out.println(amiral.getAssignations().size());
         for(Map.Entry<Bateau, Matelot[]> entry : amiral.getAssignations().entrySet()) {
             Bateau cle = entry.getKey();
             Matelot[] valeur = entry.getValue();
-            lab = new Label(cle.getNomNavire());
-            lab.getStyleClass().add("assignationCell");
-            role = new Label(valeur[0].getTypeMatelot());
-            role.getStyleClass().add("assignationCell");
-            Label nomJoueur = new Label(valeur[0].getPseudo());
-            nomJoueur.getStyleClass().add("assignationsCell");
-            row = new HBox();
-            row.getChildren().addAll(lab,role,nomJoueur);
-            row.setId("ligne#"+k);
-            k++;
-            row.setSpacing(2);
-            rightSideScreenDisplay.getChildren().add(row);
+            for (Matelot m:valeur) {
 
+                if (m!=null){
+
+                    lab = new Label(cle.getNomNavire());
+                    lab.getStyleClass().add("assignationCell");
+                    role = new Label(m.getTypeMatelot());
+                    role.getStyleClass().add("assignationCell");
+                    Label nomJoueur = new Label(m.getPseudo());
+                    nomJoueur.getStyleClass().add("assignationCell");
+                    row = new HBox();
+                    row.getChildren().addAll(lab,role,nomJoueur);
+                    row.setId("ligne#"+k);
+                    row.getStyleClass().add("rowAssignation");
+                    k++;
+                    rightSideScreenDisplay.getChildren().add(row);
+                }
+            }
         }
-        for (int i=0;i<10;i++)
-        {
-            lab = new Label("test" + i);
-            lab.getStyleClass().add("assignationCell");
-            role = new Label("Att" + i);
-            role.getStyleClass().add("assignationCell");
-            ComboBox<String> nomJoueur = new ComboBox<>();
-            nomJoueur.getStyleClass().add("assignationsCell");
-            nomJoueur.getItems().addAll("truc", "machin", "chose");
-            row = new HBox();
-            row.getChildren().addAll(lab,role,nomJoueur);
-            row.setId("ligne#"+i);
-            row.setSpacing(2);
-            rightSideScreenDisplay.getChildren().add(row);
-
-        }
-
-
 
     }
 
@@ -177,13 +163,6 @@ public class AmiralView {
         }
     }
 
-    private void initGridPaneArray() {
-
-        for (int i=1; i<10;i++)
-        {
-
-        }
-    }
 
     private void initTableauButton() {
         tableau = new Button[10][10];

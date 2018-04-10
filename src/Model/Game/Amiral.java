@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Amiral extends Joueur {
-    public final int ATT = 0;
-    public final int DEF =1;
+    public static final int ATT = 0;
+    public static final int DEF =1;
     private List<Bateau> lesBateaux;
     private HashMap<Bateau, Matelot[]> assignations;
 
@@ -53,7 +53,6 @@ public class Amiral extends Joueur {
                     //ADD matelot
                     addMatelotsInArray(assignations.get(bateau),matelot,poste);
                     matelot.addBateau(bateau);
-                    System.out.println("ADDED");
                 }
             } catch (AlreadyAssignedToAttPostException | AlreadyAssignedToOtherMatelotException | AlreadyAssignedToDefPostException e) {
                 e.getMessage();
@@ -69,7 +68,6 @@ public class Amiral extends Joueur {
                 return;
             }
             throw new NoPlaceAvailableOnShipException();
-
         }
     }
 
