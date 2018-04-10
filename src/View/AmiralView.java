@@ -1,7 +1,9 @@
 package View;
+import Controller.AmiralController;
 import Model.Game.*;
 
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -29,7 +31,8 @@ public class AmiralView {
     private VBox affichageNavireAdversePane;
     private VBox leftSideScreenDisplay;
     private VBox rightSideScreenDisplay;
-
+    private Button abandonButton;
+    private Button finPlacementBateau;
 
 
 
@@ -52,10 +55,6 @@ public class AmiralView {
 
         //initiamize left side display for ally and ennemy ship
         initLeftSideScreenDisplay();
-
-        //initialize central gridpane for buttons
-        /*NOTE remove this once initRightSideScreenDisplay is done*/
-        //initGridPaneArray();
 
         //initialize rightside screen for assignations
         initRightSideScreenDisplay();
@@ -93,10 +92,12 @@ public class AmiralView {
         row.setId("AssignationHead");
         rightSideScreenDisplay.getChildren().add(row);
         int k=0;
-        for(Map.Entry<Bateau, Matelot[]> entry : amiral.getAssignations().entrySet()) {
+        for(Map.Entry<Bateau, Matelot[]> entry : amiral.getAssignations().entrySet())
+        {
             Bateau cle = entry.getKey();
             Matelot[] valeur = entry.getValue();
-            for (Matelot m:valeur) {
+            for (Matelot m:valeur)
+            {
 
                 if (m!=null){
 
@@ -114,6 +115,11 @@ public class AmiralView {
                     rightSideScreenDisplay.getChildren().add(row);
                 }
             }
+        }
+
+        abandonButton = new Button("Abandonner la partie");
+        if (!equipeAmiral.isPret()){
+            abandonButton.setDisable(true);
         }
 
     }
@@ -203,7 +209,32 @@ public class AmiralView {
 
 
         stage.getScene().getRoot().setVisible(true);
+    }
 
+    public void setController(AmiralController eh){
+        setControllerOnButtonDisplay(eh);
+
+
+    }
+
+    private void setControllerOnButtonDisplay(AmiralController eh) {
+        for (int i = 0 ; i< tableau.length;i++)
+        {
+            for (int k=0;k<tableau[i].length;k++)
+            {
+                tableau[i][k].setOnMouseEntered(eh);
+            }
+        }
+    }
+
+    public Scene getScene()
+    {
+        return stage.getScene();
+    }
+
+    public Stage getStage()
+    {
+        return stage;
     }
 
 }

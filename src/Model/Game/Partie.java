@@ -3,6 +3,8 @@ package Model.Game;
 public class Partie {
     private Equipe equipeA;
     private Equipe equipeB;
+    private boolean placementBateaux;
+
 
     public Partie(Equipe equipeA, Equipe equipeB) {
         this.equipeA = equipeA;
@@ -23,5 +25,13 @@ public class Partie {
 
     public void setEquipeB(Equipe equipeB) {
         this.equipeB = equipeB;
+    }
+
+    public boolean isPlacementBateaux() {
+        return placementBateaux;
+    }
+
+    public void setPlacementBateaux(boolean placementBateaux) {
+        this.placementBateaux = placementBateaux;
     }
 }
