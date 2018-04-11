@@ -18,21 +18,25 @@ import java.util.Map;
 
 public class AmiralView {
     private Stage stage;
-    private Partie partie;
-    private Equipe equipeAmiral;
-    private Amiral  amiral;
-    private Equipe equipeAdverse;
-    private boolean placementBateau = true;
-    private Button[][] tableau;
-    private VBox assignationsPanel;
-    private Label bateauxAdversesLabel;
-    private Label bateauxAlliesLabel;
-    private VBox affichageNavireAlliePane;
-    private VBox affichageNavireAdversePane;
-    private VBox leftSideScreenDisplay;
-    private VBox rightSideScreenDisplay;
-    private Button abandonButton;
-    private Button finPlacementBateau;
+    public Partie partie;
+    public Equipe equipeAmiral;
+    public Amiral  amiral;
+    public Equipe equipeAdverse;
+    public boolean placementBateau = true;
+    public Button[][] tableau;
+    public VBox assignationsPanel;
+    public Label bateauxAdversesLabel;
+    public Label bateauxAlliesLabel;
+    public VBox affichageNavireAlliePane;
+    public VBox affichageNavireAdversePane;
+    public VBox leftSideScreenDisplay;
+    public VBox rightSideScreenDisplay;
+    public Button abandonButton;
+    public Button finPlacementBateau;
+    public Button readyButton;
+    public HBox rightSideButtons;
+    public Label phaseJeux;
+    public Label placementNavire;
 
 
 
@@ -98,9 +102,7 @@ public class AmiralView {
             Matelot[] valeur = entry.getValue();
             for (Matelot m:valeur)
             {
-
                 if (m!=null){
-
                     lab = new Label(cle.getNomNavire());
                     lab.getStyleClass().add("assignationCell");
                     role = new Label(m.getTypeMatelot());
@@ -116,11 +118,32 @@ public class AmiralView {
                 }
             }
         }
+        phaseJeux = new Label("Placement des navires.");
+        phaseJeux.setId("labelIndication");
+        rightSideScreenDisplay.getChildren().add(phaseJeux);
+
+        placementNavire = new Label("Placer le navire : "+ equipeAmiral.getBateauxEquipe().get(0).getNomNavire());
+        placementNavire.setId("placementNavireIndication");
+        if (placementBateau){
+            rightSideScreenDisplay.getChildren().add(placementNavire);
+        }
 
         abandonButton = new Button("Abandonner la partie");
+        abandonButton.setId("abandonButton");
         if (!equipeAmiral.isPret()){
             abandonButton.setDisable(true);
         }
+
+        readyButton = new Button("Engager le combat !");
+        readyButton.setId("readyButton");
+        if (equipeAmiral.isPret()){
+            readyButton.setDisable(true);
+        }
+        rightSideButtons = new HBox();
+        rightSideButtons.setId("rightSideButtons");
+        rightSideButtons.getChildren().addAll(abandonButton,readyButton);
+
+        rightSideScreenDisplay.getChildren().add(rightSideButtons);
 
     }
 
@@ -175,6 +198,7 @@ public class AmiralView {
         for (int i=0;i<10;i++){
             for (int j=0;j<10;j++){
                 tableau[i][j] = new Button();
+                tableau[i][j].setId(i+"#"+j);
                 tableau[i][j].getStyleClass().add("caseButton");
             }
         }
@@ -185,6 +209,7 @@ public class AmiralView {
 
         ((BorderPane) stage.getScene().getRoot()).getChildren().clear();
         ((BorderPane) stage.getScene().getRoot()).setRight(rightSideScreenDisplay);
+
 
         GridPane panneau = new GridPane();
         panneau.setId("panneau");
@@ -213,7 +238,8 @@ public class AmiralView {
 
     public void setController(AmiralController eh){
         setControllerOnButtonDisplay(eh);
-
+        readyButton.setOnMouseClicked(eh);
+        abandonButton.setOnMouseClicked(eh);
 
     }
 
@@ -222,7 +248,7 @@ public class AmiralView {
         {
             for (int k=0;k<tableau[i].length;k++)
             {
-                tableau[i][k].setOnMouseEntered(eh);
+                tableau[i][k].setOnMouseClicked(eh);
             }
         }
     }

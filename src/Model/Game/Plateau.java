@@ -21,6 +21,8 @@ public class Plateau {
         return plateau[lacase.getX()][lacase.getY()];
     }
 
+    public Case getCaseByCoord(int x, int y){return plateau[x][y];}
+
     public void initPlateau(){
         plateau = new Case[10][10];
         for (int i=0;i<plateau.length;i++){
@@ -30,8 +32,9 @@ public class Plateau {
         }
     }
 
-    public Etat changeEtatCase(Case lacase, Etat etat) {
-        getPreciseCase(lacase).setState(etat);
-        return getPreciseCase(lacase).getState();
+    public Etat changeEtatCase(int x,int y, Etat etat) {
+        Case c = getCaseByCoord(x,y);
+        c.setState(etat);
+        return c.getState();
     }
 }

@@ -56,7 +56,7 @@
     -fx-vgap: 0.3em;
 }
 .letterIndic{
-    -fx-padding: 0 20 0 20;
+    -fx-padding: 0 25 0 25;
 }
 .digitIndic{
     -fx-padding: 0 10 0 0;
@@ -68,8 +68,8 @@
 }
 
 .caseButton{
-    -fx-pref-width: 50px;
-    -fx-pref-height: 50px;
+    -fx-pref-width: 60px;
+    -fx-pref-height: 60px;
 }
 
 #afficheAdverse{
@@ -78,4 +78,28 @@
 
 #afficheAllie{
 
+}
+
+#readyButton{
+}
+
+#abandonButton{
+}
+
+#rightSideButtons{
+    -fx-padding: 50 0 0 0;
+    -fx-spacing: 10;
+}
+
+/* Indication on game phases*/
+#labelIndication{
+    -fx-padding: 20 0 0 0 ;
+}
+
+#placementNavireIndication{
+    -fx-padding: 20 0 0 0 ;
+}
+
+.bateau{
+    -fx-background-color: lightblue;
 }

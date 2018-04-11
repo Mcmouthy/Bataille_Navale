@@ -3,7 +3,7 @@ package Model.Game;
 public class Partie {
     private Equipe equipeA;
     private Equipe equipeB;
-    private boolean placementBateaux;
+    private boolean placementBateaux = true;
 
 
     public Partie(Equipe equipeA, Equipe equipeB) {

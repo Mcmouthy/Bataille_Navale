@@ -40,8 +40,10 @@ public class Appli extends Application{
         mat.addAll(Arrays.asList(new Matelot[]{m1, m2, m3, m4}));
         Equipe equipe1 = new Equipe(amiral,mat);
         equipe1.getPlateau().initPlateau();
+        equipe1.setBateauxEquipe(Arrays.asList( new Bateau[]{s1,s2,s3,s4,t1,t2,t3,c1,c2,cu}));
+        equipe1.setaPlacer(equipe1.getBateauxEquipe().get(0));
         Partie model =new Partie(equipe1,equipe1);
-        equipe1.getBateauxEquipe().addAll(Arrays.asList( new Bateau[]{s1,s2,s3,s4,t1,t2,t3,c1,c2,cu}));
+
         AmiralController amiralController = new AmiralController(primaryStage,model);
     }
 }

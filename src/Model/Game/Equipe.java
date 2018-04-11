@@ -11,12 +11,14 @@ public class Equipe {
     private boolean abandon = false;
     private Plateau plateau;
     private List<Bateau> bateauxEquipe;
+    private Bateau aPlacer;
 
     public Equipe(List<Matelot> lesJoueurs, boolean pret, boolean abandon, List<Bateau> bateauxEquipe) {
         this.lesJoueurs = lesJoueurs;
         this.pret = pret;
         this.abandon = abandon;
         this.bateauxEquipe = bateauxEquipe;
+        this.aPlacer = bateauxEquipe.get(0);
     }
 
     public Equipe(Amiral amiral,List<Matelot> lesJoueurs) {
@@ -90,6 +92,30 @@ public class Equipe {
         bateauxEquipe.add(bateau);
     }
 
+    public boolean isPlacementBateaux() {
+        return placementBateaux;
+    }
+
+    public void setPlacementBateaux(boolean placementBateaux) {
+        this.placementBateaux = placementBateaux;
+    }
+
+    public Bateau getaPlacer() {
+        return aPlacer;
+    }
+
+    public void setaPlacer(Bateau aPlacer) {
+        this.aPlacer = aPlacer;
+    }
+
+    public Bateau getBateauByName(String name){
+        for (Bateau b : bateauxEquipe)
+        {
+            if (b.getNomNavire().equals(name))return b;
+        }
+        return null;
+    }
+
     public String toString(){
         String str = "";
         str+= amiral.getPseudo()+" \n";
@@ -97,5 +123,17 @@ public class Equipe {
             str += b.toString()+" \n";
         }
         return str;
+    }
+
+    public int getNextPlacement() {
+        Bateau b = getBateauByName(aPlacer.getNomNavire());
+        for (int i=0; i<bateauxEquipe.size();i++)
+        {
+            if (bateauxEquipe.get(i).equals(b)){
+                if (bateauxEquipe.get(i+1)==null)return -1;
+                else return i+1;
+            }
+        }
+        return -1;
     }
 }
