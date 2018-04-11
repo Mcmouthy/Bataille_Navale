@@ -1,0 +1,17 @@
+#buttonMenu{
+    -fx-alignment: center;
+    -fx-padding: 3 30 3 30;
+    -fx-background-image: url("../img/Background.jpg");
+    -fx-background-position: center;
+    -fx-background-size: cover, auto;
+    -fx-text-fill: #242d35;
+    -fx-font-size: 14px;
+}
+.buttonWidth{
+    -fx-pref-height: 28px;
+    -fx-pref-width: 200px;
+}
+
+.creationServer{
+    -fx-font-size: 20;
+}
