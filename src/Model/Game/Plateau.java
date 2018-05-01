@@ -37,4 +37,8 @@ public class Plateau {
         c.setState(etat);
         return c.getState();
     }
+
+    public Case getCaseById(String id){
+        return getCaseByCoord(Integer.parseInt(id.split("#")[0]),Integer.parseInt(id.split("#")[1]));
+    }
 }

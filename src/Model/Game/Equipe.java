@@ -130,8 +130,12 @@ public class Equipe {
         for (int i=0; i<bateauxEquipe.size();i++)
         {
             if (bateauxEquipe.get(i).equals(b)){
-                if (bateauxEquipe.get(i+1)==null)return -1;
-                else return i+1;
+                try{
+                    if (bateauxEquipe.get(i+1)!=null)return i+1;
+                }catch (ArrayIndexOutOfBoundsException e){
+                    return -1;
+                }
+
             }
         }
         return -1;

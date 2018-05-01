@@ -2,7 +2,6 @@ package View;
 import Controller.AmiralController;
 import Model.Game.*;
 
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -159,7 +158,7 @@ public class AmiralView {
             nomBateau = new Label(equipeAmiral.getBateauxEquipe().get(k).getNomNavire());
             navire = new Rectangle[equipeAmiral.getBateauxEquipe().get(k).getTailleNavire()];
             panneau.getChildren().add(nomBateau);
-            //System.out.println(equipeAmiral.getBateauxEquipe().get(k).getNomNavire());
+
             for (int i=0;i<navire.length;i++){
                 navire[i]= new Rectangle(10,10);
                 navire[i].getStyleClass().addAll("navireAllie","navireOK");
@@ -182,7 +181,7 @@ public class AmiralView {
             nomBateau = new Label(equipeAdverse.getBateauxEquipe().get(k).getNomNavire());
             navire = new Rectangle[equipeAdverse.getBateauxEquipe().get(k).getTailleNavire()];
             panneau.getChildren().add(nomBateau);
-            //System.out.println(equipeAmiral.getBateauxEquipe().get(k).getNomNavire());
+
             for (int i=0;i<navire.length;i++){
                 navire[i]= new Rectangle(10,10);
                 navire[i].getStyleClass().addAll("navireAdverse","navireOK");
@@ -209,7 +208,6 @@ public class AmiralView {
 
         ((BorderPane) stage.getScene().getRoot()).getChildren().clear();
         ((BorderPane) stage.getScene().getRoot()).setRight(rightSideScreenDisplay);
-
 
         GridPane panneau = new GridPane();
         panneau.setId("panneau");
