@@ -1,9 +1,12 @@
 package Controller;
 
+import Model.Exception.UnAuthorizedPlacementException;
 import Model.Game.*;
 import View.AmiralView;
+import View.DialogInfo;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
@@ -83,7 +86,7 @@ public class AmiralController implements EventHandler<MouseEvent>{
                             b.getPositions()[0]=c;
 
                             //mettre en rouge les cases indisponible pour placer fin du bateau
-                            disableImpossiblePlacement();
+                            displaypossiblePlacement();
                         }else{
                             Case[] positions = new Case[1];
                             positions[0] = new Case(x,y,Etat.BATEAU);
@@ -96,8 +99,9 @@ public class AmiralController implements EventHandler<MouseEvent>{
                         }
                     }else{
                         //On place les autres positions du bateau selon sa taille
-                        if (checkValidPlacement(event.getSource(),equipeInView.getaPlacer()))
+                        try
                         {
+                            checkValidPlacement(event.getSource(),equipeInView.getaPlacer());
                             //check if all cases between head and queue is ETAT.VIDE
                             if(checkVoidCasesBetweenPlacement(event.getSource(),lastButtonPlaced,equipeInView.getaPlacer()))
                             {
@@ -121,8 +125,8 @@ public class AmiralController implements EventHandler<MouseEvent>{
                                         if (!idButtonX.equals("")){
                                             int newX;
                                             if (idButtonX.charAt(0)=='-') {
-                                                newX = headX - Integer.parseInt("" + idButtonX.charAt(1))-(placementLoop-1);
-                                            }else newX = headX + Integer.parseInt("" + idButtonX.charAt(1))-(placementLoop-1);
+                                                newX = headX - (Integer.parseInt("" + idButtonX.charAt(1))-(placementLoop-1));
+                                            }else newX = headX + (Integer.parseInt("" + idButtonX.charAt(1))-(placementLoop-1));
                                             equipeInView.getaPlacer().getPositions()[placementLoop] = new Case(newX,headY,Etat.BATEAU);
                                             view.tableau[newX][headY].getStyleClass().add("bateau");
                                         }
@@ -149,9 +153,8 @@ public class AmiralController implements EventHandler<MouseEvent>{
                                     view.placementNavire.setText("Placer le navire : "+equipeInView.getaPlacer().getNomNavire());
                                 }
                             }
-                        }else{
-                            System.out.println("Error");
-                            // a remplacer par des exceptions ! avec des messages box !
+                        }catch(UnAuthorizedPlacementException e){
+                            DialogInfo.showText(Alert.AlertType.WARNING,"Attention", e.getMessage());
                         }
 
                     }
@@ -206,7 +209,6 @@ public class AmiralController implements EventHandler<MouseEvent>{
                             idsToCheck[k] = (headX+(k+1))+"#"+headY;
                         }
                     }
-
                 }
                 if (!idButtonY.equals(""))
                 {
@@ -230,7 +232,7 @@ public class AmiralController implements EventHandler<MouseEvent>{
 
     }
 
-    private boolean checkValidPlacement(Object source, Bateau bateau) {
+    private boolean checkValidPlacement(Object source, Bateau bateau) throws UnAuthorizedPlacementException {
         String idSource = ((Button)source).getId();
         String lastId = lastButtonPlaced.getId();
         int[] tempIdlast = {Integer.parseInt(lastId.split("#")[0]),Integer.parseInt(lastId.split("#")[1])};
@@ -239,32 +241,38 @@ public class AmiralController implements EventHandler<MouseEvent>{
         if ((tempIdlast[0]+"#"+(tempIdlast[1]+(bateau.getTailleNavire()-1))).equals(idSource))
         {
             idButtonY = "+"+(bateau.getTailleNavire()-2);
+            idButtonX="";
             return true;
             // chek on top
         }else if((tempIdlast[0]+"#"+(tempIdlast[1]-(bateau.getTailleNavire()-1))).equals(idSource))
         {
             idButtonY = "-"+(bateau.getTailleNavire()-2);
+            idButtonX="";
             return true;
             //check on right
         }else if(((tempIdlast[0]+(bateau.getTailleNavire()-1))+"#"+(tempIdlast[1])).equals(idSource))
         {
             idButtonX = "+"+(bateau.getTailleNavire()-2);
+            idButtonY="";
             return true;
             //check on left
         }else if(((tempIdlast[0]-(bateau.getTailleNavire()-1))+"#"+tempIdlast[1]).equals(idSource))
         {
             idButtonX = "-"+(bateau.getTailleNavire()-2);
+            idButtonY="";
             return true;
         }
-        idButtonX ="";
+        idButtonX="";
         idButtonY="";
-        return false;
+        throw new UnAuthorizedPlacementException();
 
     }
 
-    private void disableImpossiblePlacement() {
+    private void displaypossiblePlacement() {
+        /*affiche en rouge les cases ou l'on peut placer la queue du bateau*/
 
     }
+
 
     private boolean isInCentralGrid(Object source) {
         for (int i=0;i<view.tableau.length;i++){
