@@ -36,6 +36,9 @@ public class AmiralView {
     public HBox rightSideButtons;
     public Label phaseJeux;
     public Label placementNavire;
+    public Button resetLastPlacement;
+    public VBox rightSideButtonDisplay;
+    public Button resetAllPlacement;
 
 
 
@@ -127,6 +130,9 @@ public class AmiralView {
             rightSideScreenDisplay.getChildren().add(placementNavire);
         }
 
+        resetLastPlacement = new Button("Annuler le dernier placement de tête");
+        resetLastPlacement.setDisable(true);
+
         abandonButton = new Button("Abandonner la partie");
         abandonButton.setId("abandonButton");
         if (!equipeAmiral.isPret()){
@@ -138,11 +144,17 @@ public class AmiralView {
         if (equipeAmiral.isPret()){
             readyButton.setDisable(true);
         }
+
+        resetAllPlacement = new Button("Vider la grille de placement");
+
         rightSideButtons = new HBox();
+        rightSideButtonDisplay = new VBox();
         rightSideButtons.setId("rightSideButtons");
         rightSideButtons.getChildren().addAll(abandonButton,readyButton);
+        rightSideButtonDisplay.getChildren().addAll(rightSideButtons,resetLastPlacement,resetAllPlacement);
+        rightSideButtonDisplay.setSpacing(10);
 
-        rightSideScreenDisplay.getChildren().add(rightSideButtons);
+        rightSideScreenDisplay.getChildren().add(rightSideButtonDisplay);
 
     }
 
@@ -238,6 +250,8 @@ public class AmiralView {
         setControllerOnButtonDisplay(eh);
         readyButton.setOnMouseClicked(eh);
         abandonButton.setOnMouseClicked(eh);
+        resetLastPlacement.setOnMouseClicked(eh);
+        resetAllPlacement.setOnMouseClicked(eh);
 
     }
 

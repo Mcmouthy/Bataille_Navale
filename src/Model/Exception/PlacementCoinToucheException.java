@@ -3,7 +3,7 @@ package Model.Exception;
 public class PlacementCoinToucheException extends Exception {
     private String message;
     public PlacementCoinToucheException(){
-        message="Placement impossible, vos bateaux se touchent par un coin !";
+        message="Placement impossible, vos bateaux se toucheraient !";
     }
 
     @Override

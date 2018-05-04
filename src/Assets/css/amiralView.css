@@ -103,3 +103,7 @@
 .bateau{
     -fx-background-color: lightblue;
 }
+
+.possiblePlacement{
+    -fx-background-color: pink;
+}
