@@ -39,6 +39,7 @@ public class AmiralView {
     public Button resetLastPlacement;
     public VBox rightSideButtonDisplay;
     public Button resetAllPlacement;
+    public Button assignationGestion;
 
 
 
@@ -87,39 +88,10 @@ public class AmiralView {
         rightSideScreenDisplay.setId("assignations_tab");
         rightSideScreenDisplay.getStyleClass().add("assignationsGrid");
 
-        Label lab = new Label("Navire");
-        lab.getStyleClass().addAll("assignationCell","assignationHeader");
-        Label role = new Label("Rôle");
-        role.getStyleClass().addAll("assignationCell","assignationHeader");
-        Label assign = new Label("Joueur");
-        assign.getStyleClass().addAll("assignationCell","assignationHeader");
-        HBox row = new HBox();
-        row.getChildren().addAll(lab,role,assign);
-        row.setId("AssignationHead");
-        rightSideScreenDisplay.getChildren().add(row);
-        int k=0;
-        for(Map.Entry<Bateau, Matelot[]> entry : amiral.getAssignations().entrySet())
-        {
-            Bateau cle = entry.getKey();
-            Matelot[] valeur = entry.getValue();
-            for (Matelot m:valeur)
-            {
-                if (m!=null){
-                    lab = new Label(cle.getNomNavire());
-                    lab.getStyleClass().add("assignationCell");
-                    role = new Label(m.getTypeMatelot());
-                    role.getStyleClass().add("assignationCell");
-                    Label nomJoueur = new Label(m.getPseudo());
-                    nomJoueur.getStyleClass().add("assignationCell");
-                    row = new HBox();
-                    row.getChildren().addAll(lab,role,nomJoueur);
-                    row.setId("ligne#"+k);
-                    row.getStyleClass().add("rowAssignation");
-                    k++;
-                    rightSideScreenDisplay.getChildren().add(row);
-                }
-            }
-        }
+        assignationGestion = new Button("Gérer les assignations");
+        assignationGestion.setId("assignationsGestion");
+        rightSideScreenDisplay.getChildren().add(assignationGestion);
+
         phaseJeux = new Label("Placement des navires.");
         phaseJeux.setId("labelIndication");
         rightSideScreenDisplay.getChildren().add(phaseJeux);
@@ -252,6 +224,7 @@ public class AmiralView {
         abandonButton.setOnMouseClicked(eh);
         resetLastPlacement.setOnMouseClicked(eh);
         resetAllPlacement.setOnMouseClicked(eh);
+        assignationGestion.setOnMouseClicked(eh);
 
     }
 

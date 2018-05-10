@@ -5,6 +5,7 @@ import Model.Exception.UnAuthorizedPlacementException;
 import Model.Game.*;
 import View.AmiralView;
 import View.DialogInfo;
+import View.PopupAssignationView;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -29,6 +30,7 @@ public class AmiralController implements EventHandler<MouseEvent>{
     private Button lastButtonPlaced;
     private String idButtonX = "";
     private String idButtonY = "";
+    private PopupAssignationView popupAssignationView;
 
     public AmiralController(Stage stage,Partie model){
         BorderPane root = new BorderPane();
@@ -42,6 +44,7 @@ public class AmiralController implements EventHandler<MouseEvent>{
         this.model = model;
         this.view=new AmiralView(stage,model,model.getEquipeA());
         equipeInView = model.getEquipeA();
+        popupAssignationView = new PopupAssignationView(equipeInView);
         view.setController(this);
         view.setAmiralView();
     }
@@ -56,9 +59,14 @@ public class AmiralController implements EventHandler<MouseEvent>{
             equipeInView.setAbandon(true);
         }else if (event.getSource().equals(view.readyButton))
         {
-            equipeInView.setPret(true);
-            view.abandonButton.setDisable(false);
-            view.readyButton.setDisable(true);
+            if (equipeInView.isPlacementBateaux()){
+                DialogInfo.showText(Alert.AlertType.INFORMATION,"Information", "Vous devez d'abord placer " +
+                        "tous les navires pour engager le combat");
+            }else{
+                equipeInView.setPret(true);
+                view.abandonButton.setDisable(false);
+                view.readyButton.setDisable(true);
+            }
         }else if(event.getSource() instanceof Button && isInCentralGrid(event.getSource()))
         {
                 int x,y;
@@ -70,9 +78,6 @@ public class AmiralController implements EventHandler<MouseEvent>{
                 {
                     if (placeTete)
                     {
-                        //placer la tete du bateaux, mettre en rouge ou on peut
-                        //pas placer la fin du bateau
-                        //changement de l'etat de la case sur le plateau à ETAT.BATEAU
                         if (equipeInView.getaPlacer().getTailleNavire()>1){
                             if (checkArroundCases(idButton,idButton,idButton)){
                                 equipeInView.getPlateau().changeEtatCase(x,y,Etat.BATEAU);
@@ -195,6 +200,8 @@ public class AmiralController implements EventHandler<MouseEvent>{
             resetPreviousHead();
         }else if (event.getSource().equals(view.resetAllPlacement)){
             clearAllGrid();
+        }else if (event.getSource().equals(view.assignationGestion)){
+            popupAssignationView.popup(view.getStage());
         }
     }
 
