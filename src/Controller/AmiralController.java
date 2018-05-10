@@ -201,7 +201,7 @@ public class AmiralController implements EventHandler<MouseEvent>{
         }else if (event.getSource().equals(view.resetAllPlacement)){
             clearAllGrid();
         }else if (event.getSource().equals(view.assignationGestion)){
-            popupAssignationView.popup(view.getStage());
+            PopupAssignationController popupAssignationController = new PopupAssignationController(view.getStage(),equipeInView);
         }
     }
 

@@ -1,6 +1,7 @@
 package View;
 
 
+import Controller.PopupAssignationController;
 import Model.Game.Bateau;
 import Model.Game.Equipe;
 import Model.Game.Joueur;
@@ -37,12 +38,18 @@ public class PopupAssignationView {
         dialog.initModality(Modality.NONE);
         dialog.initOwner(stage.getScene().getWindow());
         initRightSideScreenDisplay(equipe);
-
         Scene dialogScene = new Scene(rightSideScreenDisplay);
         dialogScene.getStylesheets().add(new File("src/Assets/css/popupAssignation.css").toURI().toString());
         dialog.setScene(dialogScene);
         dialog.show();
     }
+
+    public void setController(PopupAssignationController eh)
+    {
+
+    }
+
+
     private void initRightSideScreenDisplay(Equipe e) {
 
         rightSideScreenDisplay = new VBox();
@@ -101,9 +108,14 @@ public class PopupAssignationView {
             row.getStyleClass().add("rowAssignation");
             rightSideScreenDisplay.getChildren().add(row);
 
-
-
-
         }
+    }
+
+    public Equipe getEquipe() {
+        return equipe;
+    }
+
+    public void setEquipe(Equipe equipe) {
+        this.equipe = equipe;
     }
 }
