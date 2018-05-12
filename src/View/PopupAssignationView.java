@@ -2,9 +2,8 @@ package View;
 
 
 import Controller.PopupAssignationController;
-import Model.Game.Bateau;
-import Model.Game.Equipe;
-import Model.Game.Joueur;
+import Model.Game.*;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,34 +18,67 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PopupAssignationView {
 
     VBox rightSideScreenDisplay;
     Equipe equipe;
+    Stage dialog;
+    List<ComboBox<String>> comboBoxList;
+    Scene dialogScene;
 
     public PopupAssignationView(Equipe equipe){
-        VBox rightSideScreenDisplay = new VBox();
+        rightSideScreenDisplay = new VBox();
         this.equipe=equipe;
+        comboBoxList = new ArrayList<>();
+        dialog = new Stage();
+        initRightSideScreenDisplay(equipe);
+        dialogScene = new Scene(rightSideScreenDisplay);
+        addAlreadyAssigned(equipe);
+        dialogScene.getStylesheets().add(new File("src/Assets/css/popupAssignation.css").toURI().toString());
+    }
+
+    private void addAlreadyAssigned(Equipe equipe) {
+        for(Map.Entry<Bateau, Matelot[]> entry : equipe.getAmiral().getAssignations().entrySet()) {
+
+            Bateau key = entry.getKey();
+            Matelot[] value = entry.getValue();
+
+            if (value[Amiral.ATT]!=null){
+                Matelot attaquant = value[Amiral.ATT];
+                ComboBox comboBox = (ComboBox) dialogScene.lookup("#"+key.getNomNavire()+"#AttAssign");
+                comboBox.setValue(attaquant.getPseudo());
+
+            }
+
+            if (value[Amiral.DEF]!=null){
+                Matelot defenseur = value[Amiral.DEF];
+                ComboBox comboBox = (ComboBox) dialogScene.lookup("#"+key.getNomNavire()+"#DefAssign");
+                comboBox.setValue(defenseur.getPseudo());
+
+            }
+        }
     }
 
 
     public void popup(Stage stage) {
-        final Stage dialog = new Stage();
         dialog.setTitle("Assignations");
-
         dialog.initModality(Modality.NONE);
         dialog.initOwner(stage.getScene().getWindow());
-        initRightSideScreenDisplay(equipe);
-        Scene dialogScene = new Scene(rightSideScreenDisplay);
-        dialogScene.getStylesheets().add(new File("src/Assets/css/popupAssignation.css").toURI().toString());
         dialog.setScene(dialogScene);
         dialog.show();
     }
 
     public void setController(PopupAssignationController eh)
     {
-
+        for (ComboBox<String> comboBox : comboBoxList)
+        {
+            comboBox.valueProperty().addListener(eh);
+        }
     }
 
 
@@ -78,11 +110,13 @@ public class PopupAssignationView {
             role.setId(b.getNomNavire()+"#AttRole");
             role.getStyleClass().add("assignationCell");
             assignCombobox = new ComboBox<>();
+            assignCombobox.getItems().add("Aucun");
             for (Joueur j: e.getLesJoueurs()) {
                 assignCombobox.getItems().add(j.getPseudo());
             }
             assignCombobox.setId(b.getNomNavire()+"#AttAssign");
             assignCombobox.getStyleClass().add("assignationComboBox");
+            comboBoxList.add(assignCombobox);
             row = new HBox();
             row.getChildren().addAll(lab,role,assignCombobox);
             row.setId(b.getNomNavire()+"#lineAtt");
@@ -97,11 +131,13 @@ public class PopupAssignationView {
             role.setId(b.getNomNavire()+"#DefRole");
             role.getStyleClass().add("assignationCell");
             assignCombobox = new ComboBox<>();
+            assignCombobox.getItems().add("Aucun");
             for (Joueur j: e.getLesJoueurs()) {
                 assignCombobox.getItems().add(j.getPseudo());
             }
             assignCombobox.setId(b.getNomNavire()+"#DefAssign");
             assignCombobox.getStyleClass().add("assignationComboBox");
+            comboBoxList.add(assignCombobox);
             row = new HBox();
             row.getChildren().addAll(lab,role,assignCombobox);
             row.setId(b.getNomNavire()+"#lineDef");

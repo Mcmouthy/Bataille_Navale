@@ -1,4 +1,6 @@
 import Controller.AmiralController;
+import Model.Exception.AlreadyAssignedToDefPostException;
+import Model.Exception.AlreadyAssignedToOtherMatelotException;
 import Model.Game.*;
 import javafx.stage.Stage;
 import javafx.application.Application;
@@ -32,10 +34,6 @@ public class Appli extends Application{
         Bateau c2= new Bateau("C2",false,true,3);
         Bateau cu= new Bateau("Cu",false,true,4);
 
-        amiral.addAssignation(m1,s1,Amiral.ATT);
-        amiral.addAssignation(m1,s2,Amiral.DEF);
-        amiral.addAssignation(m3,s1,Amiral.DEF);
-        //amiral.addAssignation(m4,s1,Amiral.ATT);
         ArrayList<Matelot> mat= new ArrayList<>();
         mat.addAll(Arrays.asList(new Matelot[]{m1, m2, m3, m4}));
         Equipe equipe1 = new Equipe(amiral,mat);

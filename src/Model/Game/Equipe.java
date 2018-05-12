@@ -140,4 +140,13 @@ public class Equipe {
         }
         return -1;
     }
+
+    public Matelot getMatelotByName(String name)
+    {
+        for (Matelot m: lesJoueurs)
+        {
+            if (m.getPseudo().equals(name)) return m;
+        }
+        return null;
+    }
 }
