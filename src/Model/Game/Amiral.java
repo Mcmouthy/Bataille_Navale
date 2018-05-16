@@ -105,7 +105,6 @@ public class Amiral extends Joueur {
         if (!assignations.containsKey(bateau)){
             assignations.put(bateau,new Matelot[2]);
             assignations.get(bateau)[poste]=matelot;
-            System.out.println("added "+matelot.getPseudo());
         }else{
                 //ADD matelot
                 assignations.get(bateau)[poste]=matelot;

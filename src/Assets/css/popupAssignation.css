@@ -9,15 +9,16 @@
 .assignationCell{
     -fx-padding: 0 5 0 5;
     -fx-pref-width: 150px;
-    -fx-pref-height: 50px;
+    -fx-pref-height: 26px;
     -fx-alignment: center;
     -fx-text-alignment: center;
     -fx-border-color: black;
     -fx-border-width: 1 1 1 1;
-    -fx-font-size: 15;
+    -fx-font-size: 13;
 }
 
 .assignationHeader{
+    -fx-pref-height: 30px;
     -fx-padding: 0 5 0 5;
     -fx-alignment: center;
 }
@@ -27,9 +28,9 @@
 
 .assignationComboBox{
     -fx-pref-width: 150px;
-    -fx-pref-height: 50px;
+    -fx-pref-height: 20px;
     -fx-alignment: center;
     -fx-border-color: black;
     -fx-border-width: 1 1 1 1;
-    -fx-font-size : 15;
+    -fx-font-size : 13;
 }
