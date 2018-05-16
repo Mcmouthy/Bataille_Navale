@@ -21,7 +21,15 @@ public class Equipe {
         this.aPlacer = bateauxEquipe.get(0);
     }
 
-    public Equipe(Amiral amiral,List<Matelot> lesJoueurs) {
+    public Equipe() {
+        this.lesJoueurs = new ArrayList<>();
+        this.placementBateaux = true;
+        this.pret = true;
+        this.abandon = false;
+        this.bateauxEquipe = new ArrayList<>();
+    }
+
+    public Equipe(Amiral amiral, List<Matelot> lesJoueurs) {
         this.amiral= amiral;
         this.lesJoueurs = lesJoueurs;
         this.plateau = new Plateau();

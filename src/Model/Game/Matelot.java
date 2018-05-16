@@ -10,6 +10,10 @@ public class Matelot extends Joueur {
         this.bateauxAssignes = bateauxAssignes;
     }
 
+    public Matelot(String pseudo) {
+        super(pseudo);
+    }
+
     public List<Bateau> getBateauxAssignes() {
         return bateauxAssignes;
     }
