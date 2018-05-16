@@ -9,7 +9,7 @@
 .assignationCell{
     -fx-padding: 0 5 0 5;
     -fx-pref-width: 150px;
-    -fx-pref-height: 26px;
+    -fx-pref-height: 30px;
     -fx-alignment: center;
     -fx-text-alignment: center;
     -fx-border-color: black;
@@ -28,7 +28,7 @@
 
 .assignationComboBox{
     -fx-pref-width: 150px;
-    -fx-pref-height: 20px;
+    -fx-pref-height: 30px;
     -fx-alignment: center;
     -fx-border-color: black;
     -fx-border-width: 1 1 1 1;

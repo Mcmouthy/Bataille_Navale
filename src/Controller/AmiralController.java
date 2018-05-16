@@ -37,8 +37,8 @@ public class AmiralController implements EventHandler<MouseEvent>{
         BorderPane root = new BorderPane();
         Scene scene;
         scene = new Scene(root, Screen.getPrimary().getVisualBounds().getWidth(),Screen.getPrimary().getVisualBounds().getHeight(), Color.BLACK);
+        stage.setMaximized(true);
         stage.setScene(scene);
-        System.out.println(Screen.getPrimary().getVisualBounds().getHeight());
         stage.setTitle("Test Amiral Vue");
         stage.getIcons().add(new Image("Assets/img/Schooner.png"));
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
