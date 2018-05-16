@@ -108,13 +108,4 @@ public class PopupAssignationController implements EventHandler<MouseEvent>, jav
             }
         }
     }
-
-    public void areMatelotsSame(Matelot first,Matelot second,int poste) throws AlreadyAssignedToDefPostException, AlreadyAssignedToAttPostException {
-        if (poste==Amiral.ATT){
-            if (first.equals(second))throw new AlreadyAssignedToAttPostException();
-        }else{
-            if (first.equals(second))throw new AlreadyAssignedToDefPostException();
-        }
-
-    }
 }
