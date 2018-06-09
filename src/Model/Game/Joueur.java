@@ -1,6 +1,8 @@
 package Model.Game;
 
-public abstract class Joueur {
+import java.io.Serializable;
+
+public abstract class Joueur implements Serializable {
     private String pseudo;
 
     Joueur(String pseudo) {

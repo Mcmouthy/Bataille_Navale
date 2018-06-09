@@ -40,7 +40,7 @@ public class ServeurThread extends Thread {
 
     private void initLoop() throws IOException, ClassNotFoundException {
         /* A COMPLETER :
-	   faire une boucle qui s'arrête dès que la chaine reçu n'indique pas le pseudo du joueur n'est pas reçu
+	   faire une boucle qui s'arrête dès que la chaine reçu n'indique pas le pseudo du joueur
 
 	    */
         while (true){
@@ -48,12 +48,20 @@ public class ServeurThread extends Thread {
             if (game.getEquipeA().getLesJoueurs().size()==0)
             {
                 Joueur j=new Amiral(nom);
-                System.out.println("added");
                 game.getEquipeA().setAmiral((Amiral)j);
+                oosReq.writeObject("amiral");
+                oosReq.flush();
+                oosReq.writeObject(game);
+                oosReq.flush();
+                oosReq.writeObject(game.getEquipeA());
+                oosReq.flush();
                 break;
             }else if (game.getEquipeB().getLesJoueurs().size()==0){
                 Joueur j=new Amiral(nom);
                 game.getEquipeB().setAmiral((Amiral)j);
+                oosReq.writeObject("amiral");
+                oosReq.writeObject(game);
+                oosReq.writeObject(game.getEquipeB());
                 break;
             }else {
                 Joueur j=new Matelot(nom);
@@ -63,20 +71,33 @@ public class ServeurThread extends Thread {
                         j.setPseudo(j.getPseudo()+""+game.getEquipeA().getLesJoueurs().indexOf(j));
                     }
                     game.getEquipeA().getLesJoueurs().add((Matelot)j);
+                    oosReq.writeObject("matelot");
+                    oosReq.writeObject(game);
+                    oosReq.writeObject(game.getEquipeA());
+                    oosReq.writeObject(j);
                     break;
                 }else{
                     if (game.getEquipeA().getLesJoueurs().size()<game.getEquipeB().getLesJoueurs().size())
                     {
                         j.setPseudo(j.getPseudo()+""+game.getEquipeA().getLesJoueurs().indexOf(j));
                         game.getEquipeA().getLesJoueurs().add((Matelot)j);
+                        oosReq.writeObject("matelot");
+                        oosReq.writeObject(game);
+                        oosReq.writeObject(game.getEquipeA());
+                        oosReq.writeObject(j);
                     }else{
                         j.setPseudo(j.getPseudo()+""+game.getEquipeB().getLesJoueurs().indexOf(j));
                         game.getEquipeB().getLesJoueurs().add((Matelot)j);
+                        oosReq.writeObject("matelot");
+                        oosReq.writeObject(game);
+                        oosReq.writeObject(game.getEquipeB());
+                        oosReq.writeObject(j);
                     }
                     break;
                 }
             }
         }
+        requestLoop();
     }
 
     private void requestLoop() throws IOException, ClassNotFoundException {

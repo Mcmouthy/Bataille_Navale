@@ -1,5 +1,13 @@
 package Model.Communication;
 
+import Controller.AmiralController;
+import Controller.MatelotController;
+import Model.Game.Equipe;
+import Model.Game.Joueur;
+import Model.Game.Matelot;
+import Model.Game.Partie;
+import javafx.stage.Stage;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -7,10 +15,10 @@ public class ClientTCP {
     Socket commReq;
     ObjectInputStream oisReq;
     ObjectOutputStream oosReq;
+    String nomClient;
 
-    BufferedReader consoleIn; // flux de lecture lignes depuis clavier
 
-    public ClientTCP(String serverIp, int serverPort) throws IOException {
+    public ClientTCP(String serverIp, int serverPort, String nomClient) throws IOException {
 	/* A COMPLETER :
 	   - instanciation commReq pour se connecter au serveur
 	   - instanciation des flux oosReq et oisReq
@@ -18,29 +26,26 @@ public class ClientTCP {
         commReq= new Socket(serverIp,serverPort);
         oosReq = new ObjectOutputStream(commReq.getOutputStream());
         oisReq = new ObjectInputStream(commReq.getInputStream());
-
-        consoleIn = new BufferedReader(new InputStreamReader(System.in));
+        this.nomClient = nomClient;
     }
 
     public void initLoop() throws IOException,ClassNotFoundException {
-
-        String line = null;
         boolean ok = false;
-
         while (!ok) {
 
-	    /* A COMPLETER :
-	    - saisir pseudo au clavier
-	    - envoyer pseudo
-	    - recevoir booléen dans ok
-	    - éventuellement afficher msg en fonction de la valeur de ok
-	    */
-            System.out.println("Entrez un pseudo :");
-            line= consoleIn.readLine();
-            oosReq.writeObject(line);
+            oosReq.writeObject(nomClient);
             oosReq.flush();
-            System.out.println("envoyé !");
-
+            String typeMatelot=(String) oisReq.readObject(); //get a typeMatelot string
+            Partie p = (Partie) oisReq.readObject();
+            Equipe e = (Equipe) oisReq.readObject();
+            if (typeMatelot.equals("amiral"))
+            {
+                AmiralController ctrl = new AmiralController(new Stage(),p,e);
+            }else{
+                Joueur j = (Matelot) oisReq.readObject();
+                MatelotController ctrl = new MatelotController(new Stage(),p,e,j);
+            }
+            ok = true;
         }
     }
 }

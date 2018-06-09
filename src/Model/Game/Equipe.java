@@ -1,9 +1,10 @@
 package Model.Game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Equipe {
+public class Equipe implements Serializable {
     private Amiral amiral;
     private List<Matelot> lesJoueurs;
     private boolean placementBateaux=true;
@@ -19,6 +20,7 @@ public class Equipe {
         this.abandon = abandon;
         this.bateauxEquipe = bateauxEquipe;
         this.aPlacer = bateauxEquipe.get(0);
+        this.plateau = new Plateau();
     }
 
     public Equipe() {
@@ -27,6 +29,7 @@ public class Equipe {
         this.pret = true;
         this.abandon = false;
         this.bateauxEquipe = new ArrayList<>();
+        this.plateau = new Plateau();
     }
 
     public Equipe(Amiral amiral, List<Matelot> lesJoueurs) {

@@ -10,18 +10,20 @@ public class Client {
 
     public static void main(String[] args) {
 
-        if (args.length != 2) {
+        if (args.length < 2) {
             usage();
         }
         int port = Integer.parseInt(args[1]);
         ClientTCP client = null;
         try {
-            client = new ClientTCP(args[0], port);
+            client = new ClientTCP(args[0], port, args[2]);
             client.initLoop();
 
         }
         catch(IOException | ClassNotFoundException e) {
             System.err.println("cannot communicate with server");
+            e.printStackTrace();
+            e.getMessage();
             System.exit(1);
         }
     }

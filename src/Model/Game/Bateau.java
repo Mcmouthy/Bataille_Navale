@@ -3,7 +3,9 @@ package Model.Game;
 import Model.Exception.NotDeplacableException;
 import Model.Exception.UnAuthorizeDeplacementException;
 
-public class Bateau {
+import java.io.Serializable;
+
+public class Bateau implements Serializable {
     private int taille;
     private Case[] positions;
     private boolean recharge;

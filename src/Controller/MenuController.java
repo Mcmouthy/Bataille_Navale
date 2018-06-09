@@ -1,5 +1,7 @@
 package Controller;
 
+import Model.Communication.Client;
+import Model.Communication.ServeurMain;
 import Model.Game.Partie;
 import View.AmiralView;
 import View.MenuView;
@@ -27,6 +29,7 @@ public class MenuController implements EventHandler<MouseEvent>{
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.show();
         this.view=new MenuView(stage);
+        view.setController(this);
         view.setMenuView();
     }
 
@@ -36,6 +39,27 @@ public class MenuController implements EventHandler<MouseEvent>{
 
     @Override
     public void handle(MouseEvent event) {
-
+        if (event.getSource().equals(view.startGame)){
+            view.setStartGameView();
+        }else if(event.getSource().equals(view.joinGame)){
+            String[] args= new String[]{view.ipServer.getText(),"12880",view.pseudoInput.getText()};
+            Client.main(args);
+            view.getStage().close();
+        }else if (event.getSource().equals(view.exitGame)){
+            exitProgram();
+        }else if (event.getSource().equals(view.createGame)){
+            view.setNewGameView();
+        }else if(event.getSource().equals(view.createServer)){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ServeurMain.main(new String[]{"12880",view.ipAddressForNewServer.getText()});
+                }
+            }).start();
+            view.creationServer.setText("Le serveur a été créé à l'adresse suivante : "+view.ipAddressForNewServer.getText());
+            view.setMenuView(true);
+        }else if(event.getSource().equals(view.backToMenu)){
+            view.setMenuView();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package View;
 
+import Controller.AmiralController;
 import Controller.MenuController;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -13,8 +14,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.*;
+import java.util.Enumeration;
+import java.util.Iterator;
 
 public class MenuView {
 
@@ -24,6 +26,12 @@ public class MenuView {
     public Button exitGame;
     public VBox menu;
     public Label creationServer;
+    public TextField ipServer;
+    public TextField pseudoInput;
+    public TextField ipAddressForNewServer;
+    public Button joinGame;
+    public Button createServer;
+    public Button backToMenu;
 
     public MenuView(Stage stage) {
         this.stage=stage;
@@ -37,21 +45,22 @@ public class MenuView {
         createGame= new Button("Créer un serveur");
         startGame= new Button("Rejoindre une partie");
         exitGame= new Button ("Quitter");
+        joinGame= new Button("Rejoindre");
+        backToMenu = new Button ("Retour");
+        createServer = new Button("Créer le serveur");
         menu= new VBox(20);
         menu.setId("buttonMenu");
+        ipServer = new TextField();
+        pseudoInput = new TextField();
+        ipAddressForNewServer = new TextField();
         createGame.getStyleClass().add("buttonWidth");
         startGame.getStyleClass().add("buttonWidth");
         exitGame.getStyleClass().add("buttonWidth");
+        backToMenu.getStyleClass().add("buttonWidth");
         menu.getChildren().addAll(createGame,startGame,exitGame);
-        createGame.setOnAction(event -> this.setNewGameView());
-        startGame.setOnAction(event -> this.setStartGameView());
-        exitGame.setOnAction(event -> MenuController.exitProgram());
-        try {
-            creationServer = new Label("Le serveur a été créé avec l'adresse IP : "+InetAddress.getLocalHost().getHostAddress());
 
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        creationServer = new Label();
+
     }
     public void setMenuView() {
         stage.getScene().getRoot().setVisible(false);
@@ -63,30 +72,47 @@ public class MenuView {
     public void setNewGameView() {
 
         creationServer.getStyleClass().add("creationServer");
+        VBox b = new VBox(10);
+        b.setId("buttonMenu");
+        b.getChildren().addAll(ipAddressForNewServer,createServer,backToMenu);
         stage.getScene().getRoot().setVisible(false);
         ((BorderPane) stage.getScene().getRoot()).getChildren().clear();
-        ((BorderPane) stage.getScene().getRoot()).setCenter(menu);
-        ((BorderPane) stage.getScene().getRoot()).setBottom(creationServer);
+        ((BorderPane) stage.getScene().getRoot()).setCenter(b);
+        //((BorderPane) stage.getScene().getRoot()).setBottom(creationServer);
         stage.getScene().getRoot().setVisible(true);
     }
 
     public void setStartGameView() {
 
         //Creation of grid pane
-        TextField ipServer = new TextField();
-        ipServer.setText("Taper l'IP du serveur");
-        HBox buttonStartMenu = new HBox(10);
+        VBox buttonStartMenu = new VBox(10);
         buttonStartMenu.setId("buttonMenu");
-        startGame= new Button("Rejoindre");
-        exitGame= new Button ("Retour");
-        exitGame.setOnAction(event -> setMenuView());
 
-        buttonStartMenu.getChildren().addAll(ipServer,startGame,exitGame);
+        buttonStartMenu.getChildren().addAll(ipServer,pseudoInput,joinGame,backToMenu);
         stage.getScene().getRoot().setVisible(false);
         ((BorderPane) stage.getScene().getRoot()).getChildren().clear();
         //((BorderPane) stage.getScene().getRoot()).setCenter(ipServer);
         ((BorderPane) stage.getScene().getRoot()).setCenter(buttonStartMenu);
         stage.getScene().getRoot().setVisible(true);
     }
+    public void setController(MenuController eh){
+        createGame.setOnMouseClicked(eh);
+        startGame.setOnMouseClicked(eh);
+        exitGame.setOnMouseClicked(eh);
+        joinGame.setOnMouseClicked(eh);
+        backToMenu.setOnMouseClicked(eh);
+        createServer.setOnMouseClicked(eh);
 
+    }
+    public Stage getStage(){
+        return stage;
+    }
+
+    public void setMenuView(boolean b) {
+        stage.getScene().getRoot().setVisible(false);
+        ((BorderPane) stage.getScene().getRoot()).getChildren().clear();
+        ((BorderPane) stage.getScene().getRoot()).setCenter(menu);
+        ((BorderPane) stage.getScene().getRoot()).setBottom(creationServer);
+        stage.getScene().getRoot().setVisible(true);
+    }
 }

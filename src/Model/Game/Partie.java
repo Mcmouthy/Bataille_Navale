@@ -1,6 +1,8 @@
 package Model.Game;
 
-public class Partie {
+import java.io.Serializable;
+
+public class Partie implements Serializable {
     private Equipe equipeA;
     private Equipe equipeB;
     private boolean placementBateaux = true;

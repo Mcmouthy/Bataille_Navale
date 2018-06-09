@@ -1,6 +1,8 @@
 package Model.Game;
 
-public class Plateau {
+import java.io.Serializable;
+
+public class Plateau implements Serializable {
     private Case[][] plateau;
 
     public Plateau(Case[][] plateau) {

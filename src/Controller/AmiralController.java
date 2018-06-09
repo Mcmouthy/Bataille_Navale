@@ -33,7 +33,7 @@ public class AmiralController implements EventHandler<MouseEvent>{
     private String idButtonY = "";
     private PopupAssignationView popupAssignationView;
 
-    public AmiralController(Stage stage,Partie model){
+    public AmiralController(Stage stage,Partie model,Equipe equipe){
         BorderPane root = new BorderPane();
         Scene scene;
         scene = new Scene(root, Screen.getPrimary().getVisualBounds().getWidth(),Screen.getPrimary().getVisualBounds().getHeight(), Color.BLACK);
@@ -44,8 +44,8 @@ public class AmiralController implements EventHandler<MouseEvent>{
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.show();
         this.model = model;
-        this.view=new AmiralView(stage,model,model.getEquipeA());
-        equipeInView = model.getEquipeA();
+        this.view=new AmiralView(stage,model,equipe);
+        equipeInView = equipe;
         popupAssignationView = new PopupAssignationView(equipeInView);
         view.setController(this);
         view.setAmiralView();

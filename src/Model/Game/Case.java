@@ -1,6 +1,8 @@
 package Model.Game;
 
-public class Case {
+import java.io.Serializable;
+
+public class Case implements Serializable {
     private int x;
     private int y;
     private Etat state;
