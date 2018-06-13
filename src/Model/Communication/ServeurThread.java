@@ -32,7 +32,10 @@ public class ServeurThread extends Thread {
             oisReq = new ObjectInputStream(commReq.getInputStream());
             oosReq = new ObjectOutputStream(commReq.getOutputStream());
             initLoop();
-            requestLoop();
+            while(true){
+                requestLoop();
+            }
+
         } catch (Exception e) {
             System.out.println(myPlayer.getPseudo() + " - client disconnected");
             if (game.getEquipeA().getLesJoueurs().contains(myPlayer))
@@ -42,6 +45,8 @@ public class ServeurThread extends Thread {
             {
                 game.getEquipeB().getLesJoueurs().remove(myPlayer);
             }
+            e.getMessage();
+            e.getCause();
             e.printStackTrace();
         }
     }
@@ -53,8 +58,9 @@ public class ServeurThread extends Thread {
 	    */
         while (true){
             String nom =oisReq.readObject().toString();
-            System.out.println(game.getEquipeA().getLesJoueurs().size());
-            System.out.println(game.getEquipeB().getLesJoueurs().size());
+            System.out.println(nom+" - connected ");
+            System.out.println("equipe A "+game.getEquipeA().getLesJoueurs().size());
+            System.out.println("equipe B " +game.getEquipeB().getLesJoueurs().size());
             if (game.getEquipeA().getLesJoueurs().size()==0)
             {
                 myPlayer=new Amiral(nom);
@@ -109,11 +115,12 @@ public class ServeurThread extends Thread {
                 }
             }
         }
-        requestLoop();
+
     }
 
     private void requestLoop() throws IOException, ClassNotFoundException {
         while (true){
+            if (oisReq.read()==-1)break;
             Object o = oisReq.readObject();
             System.out.println(o.toString());
         }

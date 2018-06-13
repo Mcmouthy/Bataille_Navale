@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Communication.ClientTCP;
 import Model.Game.Equipe;
 import Model.Game.Joueur;
 import Model.Game.Partie;
@@ -19,7 +20,8 @@ import javafx.stage.Stage;
 public class MatelotController implements EventHandler<MouseEvent> {
     private MatelotView view;
     private Partie model;
-    public MatelotController(Stage stage, Partie p, Equipe e, Joueur j) {
+    private ClientTCP client;
+    public MatelotController(Stage stage, Partie p, Equipe e, Joueur j, ClientTCP client) {
         BorderPane root = new BorderPane();
         Scene scene;
         scene = new Scene(root, Screen.getPrimary().getVisualBounds().getWidth(),Screen.getPrimary().getVisualBounds().getHeight(), Color.BLACK);
@@ -30,6 +32,7 @@ public class MatelotController implements EventHandler<MouseEvent> {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.show();
         this.model = p;
+        this.client = client;
         this.view=new MatelotView(stage,model,j);
         view.setController(this);
         view.setMatelotView();

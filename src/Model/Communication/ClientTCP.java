@@ -13,8 +13,8 @@ import java.net.Socket;
 
 public class ClientTCP {
     Socket commReq;
-    ObjectInputStream oisReq;
-    ObjectOutputStream oosReq;
+    public ObjectInputStream oisReq;
+    public ObjectOutputStream oosReq;
     String nomClient;
 
 
@@ -40,10 +40,10 @@ public class ClientTCP {
             Equipe e = (Equipe) oisReq.readObject();
             if (typeMatelot.equals("amiral"))
             {
-                AmiralController ctrl = new AmiralController(new Stage(),p,e);
+                AmiralController ctrl = new AmiralController(new Stage(),p,e,this);
             }else{
                 Joueur j = (Matelot) oisReq.readObject();
-                MatelotController ctrl = new MatelotController(new Stage(),p,e,j);
+                MatelotController ctrl = new MatelotController(new Stage(),p,e,j,this);
             }
             ok = true;
         }

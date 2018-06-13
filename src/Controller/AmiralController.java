@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Communication.ClientTCP;
 import Model.Exception.PlacementCoinToucheException;
 import Model.Exception.UnAuthorizedPlacementException;
 import Model.Game.*;
@@ -20,6 +21,7 @@ import javafx.stage.Stage;
 import org.w3c.dom.css.CSSRule;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -27,13 +29,14 @@ public class AmiralController implements EventHandler<MouseEvent>{
     private AmiralView view;
     private Partie model;
     private Equipe equipeInView;
+    private ClientTCP client;
     private boolean placeTete = true;
     private Button lastButtonPlaced;
     private String idButtonX = "";
     private String idButtonY = "";
     private PopupAssignationView popupAssignationView;
 
-    public AmiralController(Stage stage,Partie model,Equipe equipe){
+    public AmiralController(Stage stage, Partie model, Equipe equipe, ClientTCP client){
         BorderPane root = new BorderPane();
         Scene scene;
         scene = new Scene(root, Screen.getPrimary().getVisualBounds().getWidth(),Screen.getPrimary().getVisualBounds().getHeight(), Color.BLACK);
@@ -44,6 +47,7 @@ public class AmiralController implements EventHandler<MouseEvent>{
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.show();
         this.model = model;
+        this.client = client;
         this.view=new AmiralView(stage,model,equipe);
         equipeInView = equipe;
         popupAssignationView = new PopupAssignationView(equipeInView);
@@ -59,6 +63,12 @@ public class AmiralController implements EventHandler<MouseEvent>{
         if (event.getSource().equals(view.abandonButton))
         {
             equipeInView.setAbandon(true);
+            try {
+                client.oosReq.writeObject("On est dans la merde !");
+                client.oosReq.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }else if (event.getSource().equals(view.readyButton))
         {
             if (equipeInView.isPlacementBateaux()){
