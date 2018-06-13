@@ -62,9 +62,8 @@ public class AmiralController implements EventHandler<MouseEvent>{
         //** if abandon button clicked **//
         if (event.getSource().equals(view.abandonButton))
         {
-            equipeInView.setAbandon(true);
             try {
-                client.oosReq.writeObject("On est dans la merde !");
+                client.oosReq.writeInt(-2);
                 client.oosReq.flush();
             } catch (IOException e) {
                 e.printStackTrace();

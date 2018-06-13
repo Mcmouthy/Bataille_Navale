@@ -32,9 +32,8 @@ public class ServeurThread extends Thread {
             oisReq = new ObjectInputStream(commReq.getInputStream());
             oosReq = new ObjectOutputStream(commReq.getOutputStream());
             initLoop();
-            while(true){
-                requestLoop();
-            }
+            requestLoop();
+
 
         } catch (Exception e) {
             System.out.println(myPlayer.getPseudo() + " - client disconnected");
@@ -59,13 +58,13 @@ public class ServeurThread extends Thread {
         while (true){
             String nom =oisReq.readObject().toString();
             System.out.println(nom+" - connected ");
-            System.out.println("equipe A "+game.getEquipeA().getLesJoueurs().size());
-            System.out.println("equipe B " +game.getEquipeB().getLesJoueurs().size());
             if (game.getEquipeA().getLesJoueurs().size()==0)
             {
                 myPlayer=new Amiral(nom);
                 game.getEquipeA().setAmiral((Amiral)myPlayer);
                 game.getEquipeA().getLesJoueurs().add(myPlayer);
+                System.out.println(nom+" added to Team A");
+                System.out.println(nom+" amiral of Team A");
                 oosReq.writeObject("amiral");
                 oosReq.flush();
                 oosReq.writeObject(game);
@@ -77,6 +76,8 @@ public class ServeurThread extends Thread {
                 myPlayer=new Amiral(nom);
                 game.getEquipeB().setAmiral((Amiral)myPlayer);
                 game.getEquipeB().getLesJoueurs().add(myPlayer);
+                System.out.println(nom+" added to Team B");
+                System.out.println(nom+" amiral of Team B");
                 oosReq.writeObject("amiral");
                 oosReq.writeObject(game);
                 oosReq.writeObject(game.getEquipeB());
@@ -89,6 +90,7 @@ public class ServeurThread extends Thread {
                         myPlayer.setPseudo(myPlayer.getPseudo()+""+game.getEquipeA().getLesJoueurs().indexOf(myPlayer));
                     }
                     game.getEquipeA().getLesJoueurs().add(myPlayer);
+                    System.out.println(nom+" added to Team A");
                     oosReq.writeObject("matelot");
                     oosReq.writeObject(game);
                     oosReq.writeObject(game.getEquipeA());
@@ -99,6 +101,7 @@ public class ServeurThread extends Thread {
                     {
                         myPlayer.setPseudo(myPlayer.getPseudo()+""+game.getEquipeA().getLesJoueurs().indexOf(myPlayer));
                         game.getEquipeA().getLesJoueurs().add(myPlayer);
+                        System.out.println(nom+" added to Team A");
                         oosReq.writeObject("matelot");
                         oosReq.writeObject(game);
                         oosReq.writeObject(game.getEquipeA());
@@ -106,6 +109,7 @@ public class ServeurThread extends Thread {
                     }else{
                         myPlayer.setPseudo(myPlayer.getPseudo()+""+game.getEquipeB().getLesJoueurs().indexOf(myPlayer));
                         game.getEquipeB().getLesJoueurs().add(myPlayer);
+                        System.out.println(nom+" added to Team B");
                         oosReq.writeObject("matelot");
                         oosReq.writeObject(game);
                         oosReq.writeObject(game.getEquipeB());
@@ -119,10 +123,26 @@ public class ServeurThread extends Thread {
     }
 
     private void requestLoop() throws IOException, ClassNotFoundException {
-        while (true){
-            if (oisReq.read()==-1)break;
-            Object o = oisReq.readObject();
-            System.out.println(o.toString());
+        while (true) switch (oisReq.readInt()) {
+            case -2:
+                abandon();
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+        }
+    }
+
+    public synchronized void abandon() {
+        if (game.getEquipeA().getLesJoueurs().contains(myPlayer)){
+            game.getEquipeA().setAbandon(true);
+            System.out.println("equipe A abandonne");
+        }else{
+            game.getEquipeB().setAbandon(true);
+            System.out.println("equipe B abandonne");
         }
     }
 }
