@@ -42,6 +42,7 @@ public class ServeurThread extends Thread {
             {
                 game.getEquipeB().getLesJoueurs().remove(myPlayer);
             }
+            e.printStackTrace();
         }
     }
 
@@ -118,26 +119,29 @@ public class ServeurThread extends Thread {
     }
 
     private void requestLoop() throws IOException, ClassNotFoundException {
-        while (true) switch (oisReq.readInt()) {
-            case -2:
-                abandon();
-                break;
-            case 1:
-                //engager le combat
-                if (game.getEquipeA().getLesJoueurs().contains(myPlayer))
-                {
-                    game.getEquipeA().setPret(true);
-                    game.getEquipeA().setBateauxEquipe((List<Bateau>) oisReq.readObject());
-                    game.getEquipeA().getBateauxEquipe().get(0).toString();
-                    System.out.println("got it");
-                }
-                break;
-            case 2:
-                //tirer
-                break;
-            case 3:
-                //deplacer
-                break;
+        while (true){
+            int valueOfFunction = oisReq.readInt();
+            switch (valueOfFunction){
+                case -2:
+                    abandon();
+                    break;
+                case 1:
+                    //engager le combat
+                    if (game.getEquipeA().getLesJoueurs().contains(myPlayer))
+                    {
+                        game.getEquipeA().setPret(true);
+                        game.getEquipeA().setBateauxEquipe((List<Bateau>) oisReq.readObject());
+                        System.out.println(game.getEquipeA().getBateauxEquipe().get(0).toString());
+                        System.out.println("got it");
+                    }
+                    break;
+                case 2:
+                    //tirer
+                    break;
+                case 3:
+                    //deplacer
+                    break;
+            }
         }
     }
 

@@ -76,7 +76,6 @@ public class AmiralController implements EventHandler<MouseEvent>{
             }else{
                 try {
                     sendPlacementToServer();
-                    client.oosReq.writeInt(1);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -155,7 +154,11 @@ public class AmiralController implements EventHandler<MouseEvent>{
                                         {
                                             int newY;
                                             if (idButtonY.charAt(0)=='-') {
-                                                newY = headY - Integer.parseInt("" + idButtonY.charAt(1))-(placementLoop-1);
+                                                if (equipeInView.getaPlacer().getTailleNavire()==4){
+                                                    newY = headY - Integer.parseInt("" + idButtonY.charAt(1))-(placementLoop-1)+1;
+                                                }else{
+                                                    newY = headY - Integer.parseInt("" + idButtonY.charAt(1))-(placementLoop-1);
+                                                }
                                             }else newY = headY + Integer.parseInt("" + idButtonY.charAt(1))-(placementLoop-1);
                                             equipeInView.getaPlacer().getPositions()[placementLoop] = new Case(headX, newY, Etat.BATEAU);
                                             equipeInView.getPlateau().changeEtatCase(headX,newY,Etat.BATEAU);
@@ -184,6 +187,7 @@ public class AmiralController implements EventHandler<MouseEvent>{
                                         placeTete = false;
                                         model.setPlacementBateaux(false);
                                         equipeInView.setPlacementBateaux(false);
+                                        view.readyButton.setDisable(false);
                                         view.rightSideButtonDisplay.getChildren().remove(view.resetLastPlacement);
                                         view.rightSideButtonDisplay.getChildren().remove(view.resetAllPlacement);
                                         view.placementNavire.setText("Tous les navires ont été placés !");

@@ -82,7 +82,7 @@ public class Bateau implements Serializable {
     }
 
     public String toString(){
-        return getNomNavire();
+        return getNomNavire()+"\n position x : "+positions[0].getX()+"\n position y : "+positions[0].getY();
     }
 
     public int getTailleNavire() {
