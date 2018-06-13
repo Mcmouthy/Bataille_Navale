@@ -1,14 +1,12 @@
 package Model.Communication;
 
-import Model.Game.Amiral;
-import Model.Game.Joueur;
-import Model.Game.Matelot;
-import Model.Game.Partie;
+import Model.Game.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 public class ServeurThread extends Thread {
     Socket commReq;
@@ -44,9 +42,6 @@ public class ServeurThread extends Thread {
             {
                 game.getEquipeB().getLesJoueurs().remove(myPlayer);
             }
-            e.getMessage();
-            e.getCause();
-            e.printStackTrace();
         }
     }
 
@@ -127,11 +122,21 @@ public class ServeurThread extends Thread {
             case -2:
                 abandon();
                 break;
+            case 1:
+                //engager le combat
+                if (game.getEquipeA().getLesJoueurs().contains(myPlayer))
+                {
+                    game.getEquipeA().setPret(true);
+                    game.getEquipeA().setBateauxEquipe((List<Bateau>) oisReq.readObject());
+                    game.getEquipeA().getBateauxEquipe().get(0).toString();
+                    System.out.println("got it");
+                }
+                break;
             case 2:
-
+                //tirer
                 break;
             case 3:
-
+                //deplacer
                 break;
         }
     }
@@ -140,6 +145,11 @@ public class ServeurThread extends Thread {
         if (game.getEquipeA().getLesJoueurs().contains(myPlayer)){
             game.getEquipeA().setAbandon(true);
             System.out.println("equipe A abandonne");
+            try {
+                commReq.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }else{
             game.getEquipeB().setAbandon(true);
             System.out.println("equipe B abandonne");

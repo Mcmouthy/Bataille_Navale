@@ -74,7 +74,12 @@ public class AmiralController implements EventHandler<MouseEvent>{
                 DialogInfo.showText(Alert.AlertType.INFORMATION,"Information", "Vous devez d'abord placer " +
                         "tous les navires pour engager le combat");
             }else{
-                equipeInView.setPret(true);
+                try {
+                    sendPlacementToServer();
+                    client.oosReq.writeInt(1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 view.abandonButton.setDisable(false);
                 view.readyButton.setDisable(true);
             }
@@ -214,6 +219,14 @@ public class AmiralController implements EventHandler<MouseEvent>{
         }else if (event.getSource().equals(view.assignationGestion)){
             PopupAssignationController popupAssignationController = new PopupAssignationController(view.getStage(),equipeInView);
         }
+    }
+
+    private void sendPlacementToServer() throws IOException {
+        client.oosReq.writeInt(1);
+        client.oosReq.flush();
+        client.oosReq.writeObject(equipeInView.getBateauxEquipe());
+        client.oosReq.flush();
+        System.out.println("got it");
     }
 
     private void checkValidPlacement(Object source, Bateau bateau) throws UnAuthorizedPlacementException {
