@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Equipe implements Serializable {
     private Amiral amiral;
-    private List<Matelot> lesJoueurs;
+    private List<Joueur> lesJoueurs;
     private boolean placementBateaux=true;
     private boolean pret = false;
     private boolean abandon = false;
@@ -14,7 +14,7 @@ public class Equipe implements Serializable {
     private List<Bateau> bateauxEquipe;
     private Bateau aPlacer;
 
-    public Equipe(List<Matelot> lesJoueurs, boolean pret, boolean abandon, List<Bateau> bateauxEquipe) {
+    public Equipe(List<Joueur> lesJoueurs, boolean pret, boolean abandon, List<Bateau> bateauxEquipe) {
         this.lesJoueurs = lesJoueurs;
         this.pret = pret;
         this.abandon = abandon;
@@ -32,14 +32,14 @@ public class Equipe implements Serializable {
         this.plateau = new Plateau();
     }
 
-    public Equipe(Amiral amiral, List<Matelot> lesJoueurs) {
+    public Equipe(Amiral amiral, List<Joueur> lesJoueurs) {
         this.amiral= amiral;
         this.lesJoueurs = lesJoueurs;
         this.plateau = new Plateau();
         this.bateauxEquipe = new ArrayList<>();
     }
 
-    public Equipe(Amiral amiral,List<Matelot> lesJoueurs, Plateau plateau) {
+    public Equipe(Amiral amiral,List<Joueur> lesJoueurs, Plateau plateau) {
         this.amiral= amiral;
         this.lesJoueurs = lesJoueurs;
         this.plateau = plateau;
@@ -55,11 +55,11 @@ public class Equipe implements Serializable {
         this.plateau = plateau;
     }
 
-    public List<Matelot> getLesJoueurs() {
+    public List<Joueur> getLesJoueurs() {
         return lesJoueurs;
     }
 
-    public void setLesJoueurs(List<Matelot> lesJoueurs) {
+    public void setLesJoueurs(List<Joueur> lesJoueurs) {
         this.lesJoueurs = lesJoueurs;
     }
 
@@ -152,9 +152,9 @@ public class Equipe implements Serializable {
         return -1;
     }
 
-    public Matelot getMatelotByName(String name)
+    public Joueur getMatelotByName(String name)
     {
-        for (Matelot m: lesJoueurs)
+        for (Joueur m: lesJoueurs)
         {
             if (m.getPseudo().equals(name)) return m;
         }

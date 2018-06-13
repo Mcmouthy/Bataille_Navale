@@ -39,7 +39,7 @@ public class AmiralController implements EventHandler<MouseEvent>{
         scene = new Scene(root, Screen.getPrimary().getVisualBounds().getWidth(),Screen.getPrimary().getVisualBounds().getHeight(), Color.BLACK);
         stage.setMaximized(true);
         stage.setScene(scene);
-        stage.setTitle("Test Amiral Vue");
+        stage.setTitle("Amiral, vos ordres ?!");
         stage.getIcons().add(new Image("Assets/img/Schooner.png"));
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.show();

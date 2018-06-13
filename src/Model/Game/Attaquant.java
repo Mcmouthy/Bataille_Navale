@@ -18,8 +18,14 @@ public class Attaquant extends Matelot {
         }
         return false;
     }
+
     @Override
-    public String getTypeMatelot(){
+    public boolean isAttaquant() {
+        return true;
+    }
+
+    @Override
+    public String returnType() {
         return "Attaquant";
     }
 }

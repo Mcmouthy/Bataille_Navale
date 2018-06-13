@@ -14,16 +14,7 @@ public class Appli extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        music();
         MenuController MenuController = new MenuController(primaryStage);
 
-    }
-
-    public void music(){
-        String path = "src/Assets/sounds/Karstenholymoly_-_The_Thunderstorm.mp3";
-        Media media = new Media(new File(path).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
-        MediaView mediaView = new MediaView(mediaPlayer);
     }
 }

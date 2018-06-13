@@ -1,4 +1,5 @@
 import Controller.AmiralController;
+import Controller.MatelotController;
 import Controller.MenuController;
 import Model.Game.*;
 import javafx.scene.media.MediaView;
@@ -20,8 +21,8 @@ public class Menu extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        music();
-        MenuController MenuController = new MenuController(primaryStage);
+
+
 
     }
 

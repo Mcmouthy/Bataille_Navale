@@ -17,4 +17,14 @@ public abstract class Joueur implements Serializable {
         this.pseudo = pseudo;
     }
 
+    public abstract boolean isMatelot();
+
+    public abstract boolean isAttaquant();
+
+    public abstract boolean isDefenseur();
+
+    public abstract String returnType();
+
+
+
 }

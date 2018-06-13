@@ -31,6 +31,25 @@ public class Matelot extends Joueur {
         bateauxAssignes.remove(bateau);
     }
 
-    public String getTypeMatelot(){return "";}
+
+    @Override
+    public boolean isMatelot() {
+        return true;
+    }
+
+    @Override
+    public boolean isAttaquant() {
+        return false;
+    }
+
+    @Override
+    public boolean isDefenseur() {
+        return false;
+    }
+
+    @Override
+    public String returnType() {
+        return "Matelot";
+    }
 }
 

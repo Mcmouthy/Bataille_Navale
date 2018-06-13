@@ -27,6 +27,26 @@ public class Amiral extends Joueur {
         this.assignations = new HashMap<>();
     }
 
+    @Override
+    public boolean isMatelot() {
+        return false;
+    }
+
+    @Override
+    public boolean isAttaquant() {
+        return false;
+    }
+
+    @Override
+    public boolean isDefenseur() {
+        return false;
+    }
+
+    @Override
+    public String returnType() {
+        return "amiral";
+    }
+
     public HashMap<Bateau, Matelot[]> getAssignations() {
         return assignations;
     }

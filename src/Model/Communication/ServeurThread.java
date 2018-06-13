@@ -34,7 +34,15 @@ public class ServeurThread extends Thread {
             initLoop();
             requestLoop();
         } catch (Exception e) {
-            System.out.println(id + " - client disconnected");
+            System.out.println(myPlayer.getPseudo() + " - client disconnected");
+            if (game.getEquipeA().getLesJoueurs().contains(myPlayer))
+            {
+                game.getEquipeA().getLesJoueurs().remove(myPlayer);
+            }else
+            {
+                game.getEquipeB().getLesJoueurs().remove(myPlayer);
+            }
+            e.printStackTrace();
         }
     }
 
@@ -45,10 +53,13 @@ public class ServeurThread extends Thread {
 	    */
         while (true){
             String nom =oisReq.readObject().toString();
+            System.out.println(game.getEquipeA().getLesJoueurs().size());
+            System.out.println(game.getEquipeB().getLesJoueurs().size());
             if (game.getEquipeA().getLesJoueurs().size()==0)
             {
-                Joueur j=new Amiral(nom);
-                game.getEquipeA().setAmiral((Amiral)j);
+                myPlayer=new Amiral(nom);
+                game.getEquipeA().setAmiral((Amiral)myPlayer);
+                game.getEquipeA().getLesJoueurs().add(myPlayer);
                 oosReq.writeObject("amiral");
                 oosReq.flush();
                 oosReq.writeObject(game);
@@ -57,41 +68,42 @@ public class ServeurThread extends Thread {
                 oosReq.flush();
                 break;
             }else if (game.getEquipeB().getLesJoueurs().size()==0){
-                Joueur j=new Amiral(nom);
-                game.getEquipeB().setAmiral((Amiral)j);
+                myPlayer=new Amiral(nom);
+                game.getEquipeB().setAmiral((Amiral)myPlayer);
+                game.getEquipeB().getLesJoueurs().add(myPlayer);
                 oosReq.writeObject("amiral");
                 oosReq.writeObject(game);
                 oosReq.writeObject(game.getEquipeB());
                 break;
             }else {
-                Joueur j=new Matelot(nom);
+                myPlayer=new Matelot(nom);
                 if (game.getEquipeA().getLesJoueurs().size() == game.getEquipeB().getLesJoueurs().size())
                 {
-                    if (game.getEquipeA().getLesJoueurs().contains(j)){
-                        j.setPseudo(j.getPseudo()+""+game.getEquipeA().getLesJoueurs().indexOf(j));
+                    if (game.getEquipeA().getLesJoueurs().contains(myPlayer)){
+                        myPlayer.setPseudo(myPlayer.getPseudo()+""+game.getEquipeA().getLesJoueurs().indexOf(myPlayer));
                     }
-                    game.getEquipeA().getLesJoueurs().add((Matelot)j);
+                    game.getEquipeA().getLesJoueurs().add(myPlayer);
                     oosReq.writeObject("matelot");
                     oosReq.writeObject(game);
                     oosReq.writeObject(game.getEquipeA());
-                    oosReq.writeObject(j);
+                    oosReq.writeObject(myPlayer);
                     break;
                 }else{
                     if (game.getEquipeA().getLesJoueurs().size()<game.getEquipeB().getLesJoueurs().size())
                     {
-                        j.setPseudo(j.getPseudo()+""+game.getEquipeA().getLesJoueurs().indexOf(j));
-                        game.getEquipeA().getLesJoueurs().add((Matelot)j);
+                        myPlayer.setPseudo(myPlayer.getPseudo()+""+game.getEquipeA().getLesJoueurs().indexOf(myPlayer));
+                        game.getEquipeA().getLesJoueurs().add(myPlayer);
                         oosReq.writeObject("matelot");
                         oosReq.writeObject(game);
                         oosReq.writeObject(game.getEquipeA());
-                        oosReq.writeObject(j);
+                        oosReq.writeObject(myPlayer);
                     }else{
-                        j.setPseudo(j.getPseudo()+""+game.getEquipeB().getLesJoueurs().indexOf(j));
-                        game.getEquipeB().getLesJoueurs().add((Matelot)j);
+                        myPlayer.setPseudo(myPlayer.getPseudo()+""+game.getEquipeB().getLesJoueurs().indexOf(myPlayer));
+                        game.getEquipeB().getLesJoueurs().add(myPlayer);
                         oosReq.writeObject("matelot");
                         oosReq.writeObject(game);
                         oosReq.writeObject(game.getEquipeB());
-                        oosReq.writeObject(j);
+                        oosReq.writeObject(myPlayer);
                     }
                     break;
                 }
