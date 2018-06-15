@@ -15,10 +15,12 @@ import java.util.List;
 public class ServerTCP {
     ServerSocket conn;
     List<Socket> listeSocket;
+    List<ServeurThread> listThread;
     Partie partie;
     public ServerTCP(int serverPort,String ip) throws IOException {
         conn = new ServerSocket(serverPort,50,InetAddress.getByName(ip));
         listeSocket = new ArrayList<>();
+        listThread = new ArrayList<>();
         partie=new Partie(new Equipe(),new Equipe());
 
     }
@@ -57,8 +59,31 @@ public class ServerTCP {
         while (true) {
             Socket s=conn.accept();
             listeSocket.add(s);
-            (new ServeurThread(listeSocket.size()-1,s,partie)).start();
+            ServeurThread newThread =new ServeurThread(listeSocket.size()-1,s,partie,this);
+            newThread.start();
+            listThread.add(newThread);
 
         }
+    }
+
+    public synchronized void updateAllThread(String equipe,List<Bateau> list){
+        for (ServeurThread s: this.listThread) {
+            try {
+                s.oosReq.writeObject("update");
+                s.oosReq.flush();
+                if (equipe.equals("A")){
+                    if (s.game.getEquipeA().getLesJoueurs().contains(s.myPlayer))s.oosReq.writeObject(list);
+                    else s.oosReq.writeObject(null);
+                }
+                else{
+                    if (s.game.getEquipeB().getLesJoueurs().contains(s.myPlayer))s.oosReq.writeObject(list);
+                    else s.oosReq.writeObject(null);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
     }
 }

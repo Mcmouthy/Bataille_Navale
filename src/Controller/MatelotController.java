@@ -17,9 +17,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class MatelotController implements EventHandler<MouseEvent> {
+public class MatelotController extends Controller implements EventHandler<MouseEvent> {
     private MatelotView view;
     private Partie model;
+    public Equipe equipeInview;
     private ClientTCP client;
     public MatelotController(Stage stage, Partie p, Equipe e, Joueur j, ClientTCP client) {
         BorderPane root = new BorderPane();
@@ -32,6 +33,7 @@ public class MatelotController implements EventHandler<MouseEvent> {
         stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         stage.show();
         this.model = p;
+        equipeInview = e;
         this.client = client;
         this.view=new MatelotView(stage,model,j);
         view.setController(this);
@@ -41,5 +43,9 @@ public class MatelotController implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent event) {
 
+    }
+
+    public void test(){
+        System.out.println("on a reçu une maj !");
     }
 }

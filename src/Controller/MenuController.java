@@ -22,7 +22,7 @@ import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class MenuController implements EventHandler<MouseEvent>{
+public class MenuController extends Controller implements EventHandler<MouseEvent>{
     private MenuView view;
     AudioClip clip;
 
@@ -53,11 +53,13 @@ public class MenuController implements EventHandler<MouseEvent>{
             view.setStartGameView();
         }else if(event.getSource().equals(view.joinGame)){
             String[] args= new String[]{view.ipServer.getText(),"12880",view.pseudoInput.getText()};
+            clip.stop();
             Client.main(args);
             view.getStage().close();
         }else if (event.getSource().equals(view.exitGame)){
             exitProgram();
         }else if (event.getSource().equals(view.createGame)){
+            clip.stop();
             view.setNewGameView();
         }else if(event.getSource().equals(view.createServer)){
             clip.stop();

@@ -10,17 +10,19 @@ import java.util.List;
 
 public class ServeurThread extends Thread {
     Socket commReq;
-    ObjectInputStream oisReq;
-    ObjectOutputStream oosReq;
+    public ObjectInputStream oisReq;
+    public ObjectOutputStream oosReq;
+    public ServerTCP serverTcp;
     int id;
     Partie game;
     Joueur myPlayer; // l'objet player associé à ce thread
 
-    public ServeurThread(int id, Socket s, Partie partie) {
+    public ServeurThread(int id, Socket s, Partie partie,ServerTCP tcp) {
         this.id = id;
         this.commReq = s;
         this.game = partie;
         myPlayer = null;
+        serverTcp = tcp;
     }
 
 
@@ -135,12 +137,14 @@ public class ServeurThread extends Thread {
                         game.getEquipeA().setBateauxEquipe(list);
                         System.out.println(game.getEquipeA().getBateauxEquipe().get(0).toString());
                         System.out.println(myPlayer.getPseudo()+" got it");
+                        serverTcp.updateAllThread("A",list);
                     }else{
                         game.getEquipeB().setPret(true);
                         List<Bateau> list = (List<Bateau>)oisReq.readObject();
                         game.getEquipeB().setBateauxEquipe(list);
                         System.out.println(game.getEquipeB().getBateauxEquipe().get(0).toString());
                         System.out.println(myPlayer.getPseudo()+" got it");
+                        serverTcp.updateAllThread("B",list);
                     }
                     break;
                 case 2:

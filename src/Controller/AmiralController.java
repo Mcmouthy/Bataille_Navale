@@ -25,10 +25,10 @@ import java.io.IOException;
 import java.util.Arrays;
 
 
-public class AmiralController implements EventHandler<MouseEvent>{
+public class AmiralController extends Controller implements EventHandler<MouseEvent>{
     private AmiralView view;
-    private Partie model;
-    private Equipe equipeInView;
+    public Partie model;
+    public Equipe equipeInView;
     private ClientTCP client;
     private boolean placeTete = true;
     private Button lastButtonPlaced;

@@ -1,21 +1,22 @@
 package Model.Communication;
 
 import Controller.AmiralController;
+import Controller.Controller;
 import Controller.MatelotController;
-import Model.Game.Equipe;
-import Model.Game.Joueur;
-import Model.Game.Matelot;
-import Model.Game.Partie;
+import Model.Game.*;
 import javafx.stage.Stage;
 
+import java.beans.EventHandler;
 import java.io.*;
 import java.net.Socket;
+import java.util.List;
 
 public class ClientTCP {
     Socket commReq;
     public ObjectInputStream oisReq;
     public ObjectOutputStream oosReq;
     String nomClient;
+    Controller ctrl;
 
 
     public ClientTCP(String serverIp, int serverPort, String nomClient) throws IOException {
@@ -40,12 +41,58 @@ public class ClientTCP {
             Equipe e = (Equipe) oisReq.readObject();
             if (typeMatelot.equals("amiral"))
             {
-                AmiralController ctrl = new AmiralController(new Stage(),p,e,this);
+                ctrl = new AmiralController(new Stage(),p,e,this);
+                Thread listenToServer = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listenToServerMethod();
+                    }
+                });
+                listenToServer.setDaemon(true);
+                listenToServer.start();
             }else{
                 Joueur j = (Matelot) oisReq.readObject();
-                MatelotController ctrl = new MatelotController(new Stage(),p,e,j,this);
+                ctrl = new MatelotController(new Stage(),p,e,j,this);
+                Thread listenToServer = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        listenToServerMethod();
+                    }
+                });
+                listenToServer.setDaemon(true);
+                listenToServer.start();
             }
             ok = true;
+        }
+    }
+
+    private void listenToServerMethod() {
+        while(true){
+            try {
+                String action = (String) oisReq.readObject();
+                System.out.println(action);
+                switch(action){
+                    case "update":
+                        List<Bateau> list = (List<Bateau>) oisReq.readObject();
+                        if (list!=null) {
+                            if (ctrl instanceof AmiralController) {
+                                System.out.println(list.get(0).toString());
+                                ((AmiralController) ctrl).equipeInView.setBateauxEquipe(list);
+                            } else {
+                                System.out.println(list.get(1).toString());
+                                ((MatelotController) ctrl).equipeInview.setBateauxEquipe(list);
+                                ((MatelotController) ctrl).test();
+                            }
+                        }
+                        break;
+                    case "test":
+                        break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
