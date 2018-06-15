@@ -230,7 +230,7 @@ public class AmiralController implements EventHandler<MouseEvent>{
         client.oosReq.flush();
         client.oosReq.writeObject(equipeInView.getBateauxEquipe());
         client.oosReq.flush();
-        System.out.println("got it");
+        System.out.println("sended");
     }
 
     private void checkValidPlacement(Object source, Bateau bateau) throws UnAuthorizedPlacementException {

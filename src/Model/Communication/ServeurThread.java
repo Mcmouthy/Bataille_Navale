@@ -121,6 +121,7 @@ public class ServeurThread extends Thread {
     private void requestLoop() throws IOException, ClassNotFoundException {
         while (true){
             int valueOfFunction = oisReq.readInt();
+            System.out.println("reçu : "+valueOfFunction);
             switch (valueOfFunction){
                 case -2:
                     abandon();
@@ -130,9 +131,16 @@ public class ServeurThread extends Thread {
                     if (game.getEquipeA().getLesJoueurs().contains(myPlayer))
                     {
                         game.getEquipeA().setPret(true);
-                        game.getEquipeA().setBateauxEquipe((List<Bateau>) oisReq.readObject());
+                        List<Bateau> list = (List<Bateau>)oisReq.readObject();
+                        game.getEquipeA().setBateauxEquipe(list);
                         System.out.println(game.getEquipeA().getBateauxEquipe().get(0).toString());
-                        System.out.println("got it");
+                        System.out.println(myPlayer.getPseudo()+" got it");
+                    }else{
+                        game.getEquipeB().setPret(true);
+                        List<Bateau> list = (List<Bateau>)oisReq.readObject();
+                        game.getEquipeB().setBateauxEquipe(list);
+                        System.out.println(game.getEquipeB().getBateauxEquipe().get(0).toString());
+                        System.out.println(myPlayer.getPseudo()+" got it");
                     }
                     break;
                 case 2:
