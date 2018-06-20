@@ -12,6 +12,11 @@
     -fx-pref-width: 200px;
 }
 
+.text-area{
+    -fx-max-width: 200;
+    -fx-max-height: 25;
+}
+
 .creationServer{
     -fx-font-size: 20;
 }
