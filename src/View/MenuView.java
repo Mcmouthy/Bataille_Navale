@@ -51,12 +51,17 @@ public class MenuView {
         menu= new VBox(20);
         menu.setId("buttonMenu");
         ipServer = new TextField();
+        ipServer.setText("192.168.43.231");
         pseudoInput = new TextField();
+        pseudoInput.setText("PlayerName");
         ipAddressForNewServer = new TextField();
         createGame.getStyleClass().add("buttonWidth");
         startGame.getStyleClass().add("buttonWidth");
         exitGame.getStyleClass().add("buttonWidth");
+        ipServer.getStyleClass().add("text-area");
+        pseudoInput.getStyleClass().add("text-area");
         backToMenu.getStyleClass().add("buttonWidth");
+        joinGame.getStyleClass().add("buttonWidth");
         menu.getChildren().addAll(createGame,startGame,exitGame);
 
         creationServer = new Label();
