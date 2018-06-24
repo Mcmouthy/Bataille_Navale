@@ -1,16 +1,12 @@
 package Model.Communication;
 
-import Model.Game.Bateau;
-import Model.Game.Equipe;
-import Model.Game.Partie;
+import Model.Game.*;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class ServerTCP {
     ServerSocket conn;
@@ -67,17 +63,29 @@ public class ServerTCP {
     }
 
     public synchronized void updateAllThread(String equipe,List<Bateau> list){
-        for (ServeurThread s: this.listThread) {
+        for (ServeurThread s: listThread) {
             try {
                 s.oosReq.writeObject("update");
                 s.oosReq.flush();
                 if (equipe.equals("A")){
-                    if (s.game.getEquipeA().getLesJoueurs().contains(s.myPlayer))s.oosReq.writeObject(list);
-                    else s.oosReq.writeObject(null);
+                    if (s.game.getEquipeA().getLesJoueurs().contains(s.myPlayer)){
+                        s.oosReq.writeObject(list);
+                        s.oosReq.flush();
+                    }
+                    else{
+                        s.oosReq.writeObject(null);
+                        s.oosReq.flush();
+                    }
                 }
                 else{
-                    if (s.game.getEquipeB().getLesJoueurs().contains(s.myPlayer))s.oosReq.writeObject(list);
-                    else s.oosReq.writeObject(null);
+                    if (s.game.getEquipeB().getLesJoueurs().contains(s.myPlayer)){
+                        s.oosReq.writeObject(list);
+                        s.oosReq.flush();
+                    }
+                    else{
+                        s.oosReq.writeObject(null);
+                        s.oosReq.flush();
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -85,5 +93,127 @@ public class ServerTCP {
 
         }
 
+    }
+
+    public synchronized void updateAllThreadJoueur(Joueur toAdd, String equipe){
+        for (ServeurThread s: listThread) {
+            try {
+                s.oosReq.writeObject("updateJoueur");
+                s.oosReq.flush();
+                if (equipe.equals("A")){
+                    if(s.game.getEquipeA().getLesJoueurs().contains(s.myPlayer)){
+                        s.oosReq.writeObject(toAdd);
+                        s.oosReq.flush();
+                    }else{
+                        s.oosReq.writeObject(null);
+                        s.oosReq.flush();
+                    }
+                }else{
+                    if (s.game.getEquipeB().getLesJoueurs().contains(s.myPlayer)){
+                        s.oosReq.writeObject(toAdd);
+                        s.oosReq.flush();
+                    }else{
+                        s.oosReq.writeObject(null);
+                        s.oosReq.flush();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+    public void updateAllThreadAssignations(String equipe, TreeMap<Bateau, Matelot[]> newAssignations)
+    {
+        for (ServeurThread s: listThread)
+        {
+            try {
+                s.oosReq.writeObject("updateAmiralAssignation");
+                s.oosReq.flush();
+                if (equipe.equals("A")){
+                    if(s.game.getEquipeA().getLesJoueurs().contains(s.myPlayer)){
+                        if (s.myPlayer instanceof Matelot)
+                        {
+                            s.oosReq.writeObject(newAssignations);
+                            s.oosReq.flush();
+                        }
+                    }else{
+                        s.oosReq.writeObject(null);
+                        s.oosReq.flush();
+                    }
+                }else{
+                    if(s.game.getEquipeB().getLesJoueurs().contains(s.myPlayer)){
+                        if (s.myPlayer instanceof Matelot)
+                        {
+                            s.oosReq.writeObject(newAssignations);
+                            s.oosReq.flush();
+                        }
+                    }else{
+                        s.oosReq.writeObject(null);
+                        s.oosReq.flush();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        System.out.println("Sended new Assignations");
+
+    }
+
+    public synchronized void updateBateauThread(String equipe, Bateau bateauPotentiel) {
+        for (ServeurThread s : listThread) {
+            try {
+                s.oosReq.writeObject("updateBateau");
+                s.oosReq.flush();
+                if (equipe.equals("A")) {
+                    if (s.game.getEquipeA().getLesJoueurs().contains(s.myPlayer)) {
+                        s.oosReq.writeObject(bateauPotentiel);
+                        s.oosReq.flush();
+                    } else {
+                        s.oosReq.writeObject(null);
+                        s.oosReq.flush();
+                    }
+                } else {
+                    if (s.game.getEquipeB().getLesJoueurs().contains(s.myPlayer)) {
+                        if (s.myPlayer instanceof Matelot) {
+                            s.oosReq.writeObject(bateauPotentiel);
+                            s.oosReq.flush();
+                        }
+
+                    } else {
+                        if (s.myPlayer instanceof Matelot) {
+                            s.oosReq.writeObject(null);
+                            s.oosReq.flush();
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public synchronized void isShottedShip(String equipe, int isTouched, String positionShooted) {
+        for (ServeurThread s : listThread) {
+            try {
+                s.oosReq.writeObject("isShooted");
+                s.oosReq.flush();
+
+                s.oosReq.writeInt(isTouched);
+                s.oosReq.flush();
+                s.oosReq.writeObject(positionShooted);
+                s.oosReq.flush();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }

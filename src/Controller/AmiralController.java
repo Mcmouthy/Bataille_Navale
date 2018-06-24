@@ -7,6 +7,7 @@ import Model.Game.*;
 import View.AmiralView;
 import View.DialogInfo;
 import View.PopupAssignationView;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -18,9 +19,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import org.w3c.dom.css.CSSRule;
 
-import java.awt.*;
+
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -29,7 +29,7 @@ public class AmiralController extends Controller implements EventHandler<MouseEv
     private AmiralView view;
     public Partie model;
     public Equipe equipeInView;
-    private ClientTCP client;
+    public ClientTCP client;
     private boolean placeTete = true;
     private Button lastButtonPlaced;
     private String idButtonX = "";
@@ -221,7 +221,7 @@ public class AmiralController extends Controller implements EventHandler<MouseEv
         }else if (event.getSource().equals(view.resetAllPlacement)){
             clearAllGrid();
         }else if (event.getSource().equals(view.assignationGestion)){
-            PopupAssignationController popupAssignationController = new PopupAssignationController(view.getStage(),equipeInView);
+            PopupAssignationController popupAssignationController = new PopupAssignationController(view.getStage(),equipeInView,this);
         }
     }
 
@@ -504,5 +504,25 @@ public class AmiralController extends Controller implements EventHandler<MouseEv
         equipeInView.getPlateau().getCaseById(lastButtonPlaced.getId()).setState(Etat.EAU);
         //clear la position de la tete du bateau à placer
         equipeInView.getaPlacer().getPositions()[0]=null;
+    }
+    public void updateShipPlacement()
+    {
+        for (Bateau b: equipeInView.getBateauxEquipe())
+        {
+            for (Case c : b.getPositions()){
+                view.tableau[c.getX()][c.getY()].getStyleClass().add("bateau");
+            }
+        }
+    }
+
+    public void updateShotted(int isShotted,String id)
+    {
+        Button shouttedButton = (Button) view.getScene().lookup("#"+id);
+
+        if (isShotted==1){
+            // on a touche
+            shouttedButton.getStyleClass().add("shotted");
+
+        }
     }
 }

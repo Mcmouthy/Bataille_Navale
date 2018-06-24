@@ -5,7 +5,7 @@ import Model.Exception.UnAuthorizeDeplacementException;
 
 import java.io.Serializable;
 
-public class Bateau implements Serializable {
+public class Bateau implements Serializable,Comparable<Bateau> {
     private int taille;
     private Case[] positions;
     private boolean recharge;
@@ -81,6 +81,19 @@ public class Bateau implements Serializable {
         }
     }
 
+    public Case getPositionById(String id)
+    {
+        int x = Integer.parseInt(id.split("#")[0]);
+        int y = Integer.parseInt(id.split("#")[1]);
+        for (Case c: positions)
+        {
+            if (c.getX()==x && c.getY()==y){
+                return c;
+            }
+        }
+        return null;
+    }
+
     public String toString(){
         return getNomNavire()+"\n position x : "+positions[0].getX()+"\n position y : "+positions[0].getY();
     }
@@ -91,6 +104,11 @@ public class Bateau implements Serializable {
 
     public void setTaille(int taille) {
         this.taille = taille;
+    }
+
+    @Override
+    public int compareTo(Bateau o) {
+        return Integer.compare(taille,o.getTailleNavire());
     }
 
     /*MOVE TO CONTROLLER*/

@@ -112,7 +112,9 @@ public class PopupAssignationView {
             assignCombobox = new ComboBox<>();
             assignCombobox.getItems().add("Aucun");
             for (Joueur j: e.getLesJoueurs()) {
-                assignCombobox.getItems().add(j.getPseudo());
+                if (!j.equals(e.getAmiral())){
+                    assignCombobox.getItems().add(j.getPseudo());
+                }
             }
             assignCombobox.setId(b.getNomNavire()+"#AttAssign");
             assignCombobox.getStyleClass().add("assignationComboBox");
@@ -133,7 +135,9 @@ public class PopupAssignationView {
             assignCombobox = new ComboBox<>();
             assignCombobox.getItems().add("Aucun");
             for (Joueur j: e.getLesJoueurs()) {
-                assignCombobox.getItems().add(j.getPseudo());
+                if (!j.equals(e.getAmiral())){
+                    assignCombobox.getItems().add(j.getPseudo());
+                }
             }
             assignCombobox.setId(b.getNomNavire()+"#DefAssign");
             assignCombobox.getStyleClass().add("assignationComboBox");

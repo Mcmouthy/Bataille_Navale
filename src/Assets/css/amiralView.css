@@ -88,3 +88,11 @@
 .possiblePlacement{
     -fx-background-color: pink;
 }
+
+.nothingToShoot{
+    -fx-background-image: url("../img/dot.jpg");
+}
+
+.shotted{
+    -fx-background-image: url("../img/redCross.jpg");
+}

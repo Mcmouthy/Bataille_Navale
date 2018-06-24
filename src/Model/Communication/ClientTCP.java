@@ -6,10 +6,9 @@ import Controller.MatelotController;
 import Model.Game.*;
 import javafx.stage.Stage;
 
-import java.beans.EventHandler;
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
+import java.util.*;
 
 public class ClientTCP {
     Socket commReq;
@@ -71,22 +70,68 @@ public class ClientTCP {
             try {
                 String action = (String) oisReq.readObject();
                 System.out.println(action);
-                switch(action){
-                    case "update":
-                        List<Bateau> list = (List<Bateau>) oisReq.readObject();
-                        if (list!=null) {
-                            if (ctrl instanceof AmiralController) {
-                                System.out.println(list.get(0).toString());
-                                ((AmiralController) ctrl).equipeInView.setBateauxEquipe(list);
-                            } else {
-                                System.out.println(list.get(1).toString());
-                                ((MatelotController) ctrl).equipeInview.setBateauxEquipe(list);
-                                ((MatelotController) ctrl).test();
+                if (action !=null) {
+                    switch (action) {
+                        case "update":
+                            List<Bateau> list = (List<Bateau>) oisReq.readObject();
+                            if (list != null) {
+                                if (ctrl instanceof AmiralController) {
+                                    System.out.println(list.get(0).toString());
+                                    ((AmiralController) ctrl).equipeInView.setBateauxEquipe(list);
+                                    ((AmiralController) ctrl).updateShipPlacement();
+                                } else {
+                                    System.out.println(list.get(1).toString());
+                                    ((MatelotController) ctrl).equipeInview.setBateauxEquipe(list);
+                                    ((MatelotController) ctrl).updateShipPlacement();
+                                }
                             }
-                        }
-                        break;
-                    case "test":
-                        break;
+                            break;
+                        case "updateJoueur":
+                            Joueur j = (Matelot) oisReq.readObject();
+                            if (j != null) {
+                                if (ctrl instanceof AmiralController) {
+                                    ((AmiralController) ctrl).equipeInView.getLesJoueurs().add(j);
+                                } else {
+                                    ((MatelotController) ctrl).equipeInview.getLesJoueurs().add(j);
+                                }
+                            }
+                            break;
+                        case "updateAmiralAssignation":
+                            if (ctrl instanceof MatelotController) {
+                                TreeMap<Bateau, Matelot[]> map = (TreeMap<Bateau, Matelot[]>) oisReq.readObject();
+                                if (map != null) {
+                                    ((MatelotController) ctrl).equipeInview.getAmiral().setAssignations(map);
+                                    System.out.println("got new assignations");
+                                }
+                            }
+                            break;
+                        case "updateBateau":
+                            Bateau bateau = (Bateau) oisReq.readObject();
+                            if (bateau != null) {
+                                if (ctrl instanceof AmiralController) {
+                                    Bateau toremove = ((AmiralController) ctrl).equipeInView.getBateauToRemoveByName(bateau.getNomNavire());
+                                    ((AmiralController) ctrl).equipeInView.getBateauxEquipe().remove(toremove);
+                                    ((AmiralController) ctrl).equipeInView.getBateauxEquipe().add(bateau);
+                                } else {
+                                    Bateau toremove = ((MatelotController) ctrl).equipeInview.getBateauToRemoveByName(bateau.getNomNavire());
+                                    ((MatelotController) ctrl).equipeInview.getBateauxEquipe().remove(toremove);
+                                    ((MatelotController) ctrl).equipeInview.getBateauxEquipe().add(bateau);
+                                }
+                                System.out.println("maj bateau : " + bateau.getNomNavire());
+                            }
+                            break;
+                        case "isShooted":
+                            int isShoted = oisReq.readInt();
+                            String id = (String) oisReq.readObject();
+                            if (isShoted != 0) {
+                                if (ctrl instanceof AmiralController) {
+                                    ((AmiralController) ctrl).updateShotted(isShoted,id);
+                                } else {
+                                    ((MatelotController) ctrl).updateShotted(isShoted);
+                                }
+                            }
+                            break;
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();

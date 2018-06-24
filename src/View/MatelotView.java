@@ -122,6 +122,7 @@ public class MatelotView {
             for (int k=0;k<myTeam[i].length;k++)
             {
                 myTeam[i][k].setOnMouseClicked(eh);
+                ennemyTeam[i][k].setOnMouseClicked(eh);
             }
         }
     }

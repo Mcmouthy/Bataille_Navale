@@ -16,15 +16,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import javax.swing.event.ChangeEvent;
+import java.io.IOException;
 
 public class PopupAssignationController implements EventHandler<MouseEvent>, javafx.beans.value.ChangeListener<String> {
     public Equipe equipe;
     public PopupAssignationView view;
+    public AmiralController ctrl;
     public boolean assign = true;
 
-    public PopupAssignationController(Stage stage,Equipe equipe){
+    public PopupAssignationController(Stage stage,Equipe equipe,AmiralController ctrl){
         this.equipe= equipe;
         this.view=new PopupAssignationView(this.equipe);
+        this.ctrl = ctrl;
         view.setController(this);
         view.popup(stage);
     }
@@ -49,6 +52,14 @@ public class PopupAssignationController implements EventHandler<MouseEvent>, jav
             if (newValue.equals("Aucun")) {
                 matelot = equipe.getMatelotByName(oldValue);
                 equipe.getAmiral().removeAssignation((Matelot) matelot, bateau, thePoste);
+                try {
+                    ctrl.client.oosReq.writeInt(4);
+                    ctrl.client.oosReq.flush();
+                    ctrl.client.oosReq.writeObject(ctrl.equipeInView.getAmiral().getAssignations());
+                    ctrl.client.oosReq.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             } else {
                 matelot = equipe.getMatelotByName(newValue);
@@ -56,6 +67,14 @@ public class PopupAssignationController implements EventHandler<MouseEvent>, jav
                     assign = false;
                     try {
                         equipe.getAmiral().addAssignation((Matelot)matelot, bateau, thePoste);
+                        try {
+                            ctrl.client.oosReq.writeInt(4);
+                            ctrl.client.oosReq.flush();
+                            ctrl.client.oosReq.writeObject(ctrl.equipeInView.getAmiral().getAssignations());
+                            ctrl.client.oosReq.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     } catch (NoPlaceAvailableOnShipException e) {
                         DialogInfo.showText(Alert.AlertType.WARNING, "Assignation impossible", e.getMessage());
                         combobox.setValue("Aucun");
@@ -79,6 +98,14 @@ public class PopupAssignationController implements EventHandler<MouseEvent>, jav
                     try {
                         equipe.getAmiral().removeAssignation((Matelot)oldMatelot, bateau, thePoste);
                         equipe.getAmiral().addAssignation((Matelot)matelot, bateau, thePoste);
+                        try {
+                            ctrl.client.oosReq.writeInt(4);
+                            ctrl.client.oosReq.flush();
+                            ctrl.client.oosReq.writeObject(ctrl.equipeInView.getAmiral().getAssignations());
+                            ctrl.client.oosReq.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     } catch (NoPlaceAvailableOnShipException e) {
                         DialogInfo.showText(Alert.AlertType.WARNING, "Assignation impossible", e.getMessage());
                         combobox.setValue(oldValue);

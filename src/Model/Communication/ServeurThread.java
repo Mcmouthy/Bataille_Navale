@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
+import java.util.TreeMap;
 
 public class ServeurThread extends Thread {
     Socket commReq;
@@ -69,6 +70,7 @@ public class ServeurThread extends Thread {
                 oosReq.flush();
                 oosReq.writeObject(game.getEquipeA());
                 oosReq.flush();
+                //serverTcp.updateAllThreadJoueur(myPlayer,"A");
                 break;
             }else if (game.getEquipeB().getLesJoueurs().size()==0){
                 myPlayer=new Amiral(nom);
@@ -79,6 +81,7 @@ public class ServeurThread extends Thread {
                 oosReq.writeObject("amiral");
                 oosReq.writeObject(game);
                 oosReq.writeObject(game.getEquipeB());
+                //serverTcp.updateAllThreadJoueur(myPlayer,"B");
                 break;
             }else {
                 myPlayer=new Matelot(nom);
@@ -93,6 +96,7 @@ public class ServeurThread extends Thread {
                     oosReq.writeObject(game);
                     oosReq.writeObject(game.getEquipeA());
                     oosReq.writeObject(myPlayer);
+                    serverTcp.updateAllThreadJoueur(myPlayer,"A");
                     break;
                 }else{
                     if (game.getEquipeA().getLesJoueurs().size()<game.getEquipeB().getLesJoueurs().size())
@@ -104,6 +108,7 @@ public class ServeurThread extends Thread {
                         oosReq.writeObject(game);
                         oosReq.writeObject(game.getEquipeA());
                         oosReq.writeObject(myPlayer);
+                        serverTcp.updateAllThreadJoueur(myPlayer,"A");
                     }else{
                         myPlayer.setPseudo(myPlayer.getPseudo()+""+game.getEquipeB().getLesJoueurs().indexOf(myPlayer));
                         game.getEquipeB().getLesJoueurs().add(myPlayer);
@@ -112,6 +117,7 @@ public class ServeurThread extends Thread {
                         oosReq.writeObject(game);
                         oosReq.writeObject(game.getEquipeB());
                         oosReq.writeObject(myPlayer);
+                        serverTcp.updateAllThreadJoueur(myPlayer,"B");
                     }
                     break;
                 }
@@ -121,6 +127,7 @@ public class ServeurThread extends Thread {
     }
 
     private void requestLoop() throws IOException, ClassNotFoundException {
+
         while (true){
             int valueOfFunction = oisReq.readInt();
             System.out.println("reçu : "+valueOfFunction);
@@ -135,13 +142,14 @@ public class ServeurThread extends Thread {
                         game.getEquipeA().setPret(true);
                         List<Bateau> list = (List<Bateau>)oisReq.readObject();
                         game.getEquipeA().setBateauxEquipe(list);
-                        System.out.println(game.getEquipeA().getBateauxEquipe().get(0).toString());
+                        serverTcp.partie.getEquipeA().setBateauxEquipe(list);
                         System.out.println(myPlayer.getPseudo()+" got it");
                         serverTcp.updateAllThread("A",list);
                     }else{
                         game.getEquipeB().setPret(true);
                         List<Bateau> list = (List<Bateau>)oisReq.readObject();
                         game.getEquipeB().setBateauxEquipe(list);
+                        serverTcp.partie.getEquipeB().setBateauxEquipe(list);
                         System.out.println(game.getEquipeB().getBateauxEquipe().get(0).toString());
                         System.out.println(myPlayer.getPseudo()+" got it");
                         serverTcp.updateAllThread("B",list);
@@ -149,9 +157,53 @@ public class ServeurThread extends Thread {
                     break;
                 case 2:
                     //tirer
+                    System.out.println("shout");
+                    if (game.getEquipeA().getLesJoueurs().contains(myPlayer))
+                    {
+                        String positionShooted = (String)oisReq.readObject();
+                        Bateau bateauPotentiel =serverTcp.partie.getEquipeB().getBateauByPosition(positionShooted);
+                        if (bateauPotentiel == null)
+                        {
+                            //y a rien du tout la ou t'as tire
+                            serverTcp.isShottedShip("A",-1,positionShooted);
+                        }else{
+                            //on a touche
+                            System.out.println("touche");
+                            bateauPotentiel.getPositionById(positionShooted).setState(Etat.TOUCHE);
+                            System.out.println("update en cours");
+                            serverTcp.isShottedShip("A",1,positionShooted);
+
+                        }
+
+                    }else{
+                        String positionShooted = (String)oisReq.readObject();
+                        Bateau bateauPotentiel =serverTcp.partie.getEquipeA().getBateauByPosition(positionShooted);
+                        if (bateauPotentiel == null)
+                        {
+                            //y a rien du tout la ou t'as tire
+                            serverTcp.isShottedShip("B",-1, positionShooted);
+                        }else{
+                            //on a touche
+                            System.out.println("touche");
+                            bateauPotentiel.getPositionById(positionShooted).setState(Etat.TOUCHE);
+                            System.out.println("update en cours");
+                            serverTcp.isShottedShip("B",1, positionShooted);
+
+                        }
+                    }
                     break;
                 case 3:
                     //deplacer
+                    break;
+                case 4:
+                    //update les assignations
+                    TreeMap<Bateau,Matelot[]> newAssignations = (TreeMap<Bateau, Matelot[]>) oisReq.readObject();
+                    if (game.getEquipeA().getLesJoueurs().contains(myPlayer))
+                    {
+                        serverTcp.updateAllThreadAssignations("A",newAssignations);
+                    }else{
+                        serverTcp.updateAllThreadAssignations("B",newAssignations);
+                    }
                     break;
             }
         }

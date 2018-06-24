@@ -5,17 +5,15 @@ import Model.Exception.AlreadyAssignedToDefPostException;
 import Model.Exception.AlreadyAssignedToOtherMatelotException;
 import Model.Exception.NoPlaceAvailableOnShipException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Amiral extends Joueur {
     public static final int ATT = 0;
     public static final int DEF =1;
     private List<Bateau> lesBateaux;
-    private HashMap<Bateau, Matelot[]> assignations;
+    private TreeMap<Bateau, Matelot[]> assignations;
 
-    public Amiral(String pseudo, List<Bateau> lesBateaux, HashMap<Bateau, Matelot[]> assignations) {
+    public Amiral(String pseudo, List<Bateau> lesBateaux, TreeMap<Bateau, Matelot[]> assignations) {
         super(pseudo);
         this.lesBateaux = lesBateaux;
         this.assignations = assignations;
@@ -24,7 +22,7 @@ public class Amiral extends Joueur {
     public Amiral(String pseudo) {
         super(pseudo);
         this.lesBateaux = new ArrayList<>();
-        this.assignations = new HashMap<>();
+        this.assignations = new TreeMap<Bateau,Matelot[]>();
     }
 
     @Override
@@ -47,11 +45,11 @@ public class Amiral extends Joueur {
         return "amiral";
     }
 
-    public HashMap<Bateau, Matelot[]> getAssignations() {
+    public Map<Bateau, Matelot[]> getAssignations() {
         return assignations;
     }
 
-    public void setAssignations(HashMap<Bateau, Matelot[]> assignations) {
+    public void setAssignations(TreeMap<Bateau, Matelot[]> assignations) {
         this.assignations = assignations;
     }
 
@@ -67,7 +65,6 @@ public class Amiral extends Joueur {
         if (!assignations.containsKey(bateau)){
             assignations.put(bateau,new Matelot[2]);
             assignations.get(bateau)[poste]=matelot;
-            System.out.println("added "+matelot.getPseudo());
         }else{
 
             if (!checkMatelotBeforeAddition(assignations.get(bateau),matelot,poste)){
@@ -84,7 +81,6 @@ public class Amiral extends Joueur {
 
             if (matelots[poste]==null){
                 matelots[poste]=matelot;
-                System.out.println("added "+matelot.getPseudo());
                 return;
             }
             throw new NoPlaceAvailableOnShipException();

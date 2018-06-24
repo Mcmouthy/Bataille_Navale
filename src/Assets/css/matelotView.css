@@ -59,7 +59,19 @@
     -fx-background-color: lightblue;
 }
 
+.possibleFire{
+    -fx-background-color: red;
+}
+
 #typeMatelot{
     -fx-alignment: center;
     -fx-padding: 0 0 0 100;
+}
+
+.nothingToShoot{
+    -fx-background-image: url("../img/dot.jpg");
+}
+
+.shotted{
+    -fx-background-image: url("../img/redCross.jpg");
 }

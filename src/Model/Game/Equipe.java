@@ -127,6 +127,20 @@ public class Equipe implements Serializable {
         return null;
     }
 
+    public Bateau getBateauByPosition(String position)
+    {
+        for (Bateau b:bateauxEquipe)
+        {
+            for (Case c:b.getPositions())
+            {
+                if ((c.getX()+"#"+c.getY()).equals(position)){
+                    return b;
+                }
+            }
+        }
+        return null;
+    }
+
     public String toString(){
         String str = "";
         str+= amiral.getPseudo()+" \n";
@@ -157,6 +171,15 @@ public class Equipe implements Serializable {
         for (Joueur m: lesJoueurs)
         {
             if (m.getPseudo().equals(name)) return m;
+        }
+        return null;
+    }
+
+    public Bateau getBateauToRemoveByName(String name){
+        for (Bateau b : bateauxEquipe){
+            if (b.getNomNavire().equals(name)){
+                return b;
+            }
         }
         return null;
     }
