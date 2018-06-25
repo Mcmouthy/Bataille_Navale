@@ -127,7 +127,7 @@ public class ClientTCP {
                                 if (ctrl instanceof AmiralController) {
                                     ((AmiralController) ctrl).updateShotted(isShoted,id);
                                 } else {
-                                    ((MatelotController) ctrl).updateShotted(isShoted);
+                                    ((MatelotController) ctrl).updateShotted(isShoted,id);
                                 }
                             }
                             break;
