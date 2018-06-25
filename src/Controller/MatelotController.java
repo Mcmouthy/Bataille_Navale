@@ -165,9 +165,12 @@ public class MatelotController extends Controller implements EventHandler<MouseE
 
     }
 
-    public void updateShotted(int isShotted)
+    public void updateShotted(int isShotted,String shotted)
     {
         if (isShotted==1){
+            if (!shotted.equals("")){
+                shouttedButton = getButtonEnnemyByID(shotted);
+            }
             // on a touche
             Platform.runLater(new Runnable() {
                 @Override
@@ -193,5 +196,17 @@ public class MatelotController extends Controller implements EventHandler<MouseE
         }
 
 
+    }
+
+    public Button getButtonEnnemyByID(String id)
+    {
+        for (int i =0; i<view.ennemyTeam.length;i++)
+        {
+            for (int j=0;j<view.ennemyTeam[i].length;j++)
+            {
+                if ((i+"#"+j).equals(id)) return view.ennemyTeam[i][j];
+            }
+        }
+        return null;
     }
 }
