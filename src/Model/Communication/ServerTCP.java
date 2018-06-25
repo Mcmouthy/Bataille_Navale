@@ -198,7 +198,7 @@ public class ServerTCP {
         }
     }
 
-    public synchronized void isShottedShip(String equipe, int isTouched, String positionShooted) {
+    public synchronized void isShottedShip(String equipe, int isTouched, String positionShooted, String shottedTeam) {
         for (ServeurThread s : listThread) {
             try {
                 s.oosReq.writeObject("isShooted");
@@ -208,6 +208,26 @@ public class ServerTCP {
                 s.oosReq.flush();
                 s.oosReq.writeObject(positionShooted);
                 s.oosReq.flush();
+                if (equipe.equals("A")) {
+                    if (s.game.getEquipeA().getLesJoueurs().contains(s.myPlayer))
+                    {
+                        s.oosReq.writeBoolean(false);
+                        s.oosReq.flush();
+                    }else{
+                        s.oosReq.writeBoolean(true);
+                        s.oosReq.flush();
+                    }
+                }else{
+
+                    if (s.game.getEquipeB().getLesJoueurs().contains(s.myPlayer)) {
+                        s.oosReq.writeBoolean(false);
+                        s.oosReq.flush();
+                    }else{
+                        s.oosReq.writeBoolean(true);
+                        s.oosReq.flush();
+                    }
+
+                }
 
 
             } catch (IOException e) {

@@ -169,7 +169,7 @@ public class MatelotController extends Controller implements EventHandler<MouseE
     {
         if (isShotted==1){
             if (!shotted.equals("")){
-                shouttedButton = getButtonEnnemyByID(shotted);
+                shouttedButton = getButtonEnnemyTeamByID(shotted);
             }
             // on a touche
             Platform.runLater(new Runnable() {
@@ -198,7 +198,7 @@ public class MatelotController extends Controller implements EventHandler<MouseE
 
     }
 
-    public Button getButtonEnnemyByID(String id)
+    public Button getButtonEnnemyTeamByID(String id)
     {
         for (int i =0; i<view.ennemyTeam.length;i++)
         {

@@ -164,13 +164,13 @@ public class ServeurThread extends Thread {
                         if (bateauPotentiel == null)
                         {
                             //y a rien du tout la ou t'as tire
-                            serverTcp.isShottedShip("A",-1,positionShooted);
+                            serverTcp.isShottedShip("A",-1,positionShooted,"B");
                         }else{
                             //on a touche
                             System.out.println("touche");
                             bateauPotentiel.getPositionById(positionShooted).setState(Etat.TOUCHE);
                             System.out.println("update en cours");
-                            serverTcp.isShottedShip("A",1,positionShooted);
+                            serverTcp.isShottedShip("A",1,positionShooted,"B");
 
                         }
 
@@ -180,13 +180,13 @@ public class ServeurThread extends Thread {
                         if (bateauPotentiel == null)
                         {
                             //y a rien du tout la ou t'as tire
-                            serverTcp.isShottedShip("B",-1, positionShooted);
+                            serverTcp.isShottedShip("B",-1, positionShooted,"A");
                         }else{
                             //on a touche
                             System.out.println("touche");
                             bateauPotentiel.getPositionById(positionShooted).setState(Etat.TOUCHE);
                             System.out.println("update en cours");
-                            serverTcp.isShottedShip("B",1, positionShooted);
+                            serverTcp.isShottedShip("B",1, positionShooted,"A");
 
                         }
                     }

@@ -123,11 +123,17 @@ public class ClientTCP {
                         case "isShooted":
                             int isShoted = oisReq.readInt();
                             String id = (String) oisReq.readObject();
+                            boolean equipeAllie = oisReq.readBoolean();
                             if (isShoted != 0) {
                                 if (ctrl instanceof AmiralController) {
                                     ((AmiralController) ctrl).updateShotted(isShoted,id);
                                 } else {
-                                    ((MatelotController) ctrl).updateShotted(isShoted,id);
+                                    if (equipeAllie){
+                                        ((MatelotController) ctrl).updateShotted(isShoted,"");
+
+                                    }else{
+                                        ((MatelotController) ctrl).updateShotted(isShoted,id);
+                                    }
                                 }
                             }
                             break;
