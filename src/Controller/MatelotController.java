@@ -29,6 +29,7 @@ public class MatelotController extends Controller implements EventHandler<MouseE
     public Equipe equipeInview;
     private ClientTCP client;
     private Bateau selected;
+    private Bateau oldSelected;
     private Button shouttedButton;
     public MatelotController(Stage stage, Partie p, Equipe e, Joueur j, ClientTCP client) {
         BorderPane root = new BorderPane();
@@ -109,7 +110,7 @@ public class MatelotController extends Controller implements EventHandler<MouseE
                if (((Button) event.getSource()).getStyleClass().contains("possibleFire")){
                    selected.setRecharge(true);
                    System.out.println("On tire sur la case "+ ((Button) event.getSource()).getId());
-                   shouttedButton= (Button) event.getSource();
+                   shouttedButton = (Button) event.getSource();
                    try {
                        client.oosReq.writeInt(2);
                        client.oosReq.flush();
@@ -125,6 +126,9 @@ public class MatelotController extends Controller implements EventHandler<MouseE
                            view.ennemyTeam[k][a].getStyleClass().remove("possibleFire");
                        }
                    }
+                   oldSelected=selected;
+                   selected = null;
+
                }
 
 
@@ -174,18 +178,20 @@ public class MatelotController extends Controller implements EventHandler<MouseE
 
         }else{
             //dans l'eau
+
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
                     shouttedButton.getStyleClass().remove("possibleFire");
                     shouttedButton.getStyleClass().add("nothingToShoot");
+
                 }
             });
+            oldSelected.setRecharge(false);
+            oldSelected=null;
 
         }
-        Bateau oldSelected = selected;
-        shouttedButton.getStyleClass().remove("nothingToShoot");
-        oldSelected.setRecharge(false);
-        selected=null;
+
+
     }
 }

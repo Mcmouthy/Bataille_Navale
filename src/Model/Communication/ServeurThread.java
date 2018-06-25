@@ -45,7 +45,6 @@ public class ServeurThread extends Thread {
             {
                 game.getEquipeB().getLesJoueurs().remove(myPlayer);
             }
-            e.printStackTrace();
         }
     }
 
