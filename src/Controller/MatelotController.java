@@ -60,36 +60,33 @@ public class MatelotController extends Controller implements EventHandler<MouseE
                        if (selected!=null){
                            if (!selected.isRecharge()){
                                Matelot[] assignedToSelected = equipeInview.getAmiral().getAssignations().get(selected);
-                               if (assignedToSelected[Amiral.ATT].getPseudo().equals(view.joueur.getPseudo())){
+                               if (assignedToSelected !=null ) {
+                                   if (assignedToSelected[Amiral.ATT].getPseudo().equals(view.joueur.getPseudo())) {
                                    /*
                                    Afficher les possibilités de tire sur le paneau adverse
                                     */
-                                   for (Case c: selected.getPositions())
-                                   {
-                                       for (int i=-1;i<=1;i++)
-                                       {
-                                           for (int j=-1;j<=1;j++)
-                                           {
-                                               try {
-                                                   view.ennemyTeam[c.getX() + i][c.getY() + j].getStyleClass().add("possibleFire");
-                                               }catch (ArrayIndexOutOfBoundsException e){}
+                                       for (Case c : selected.getPositions()) {
+                                           for (int i = -1; i <= 1; i++) {
+                                               for (int j = -1; j <= 1; j++) {
+                                                   try {
+                                                       view.ennemyTeam[c.getX() + i][c.getY() + j].getStyleClass().add("possibleFire");
+                                                   } catch (ArrayIndexOutOfBoundsException e) {
+                                                   }
+                                               }
                                            }
                                        }
-                                   }
-                               }else if (assignedToSelected[Amiral.DEF].equals(view.joueur))
-                               {
+                                   } else if (assignedToSelected[Amiral.DEF].equals(view.joueur)) {
                                    /*
                                    Afficher les possibilités de déplacement du bateau
                                     */
-                                   for (Case c: selected.getPositions())
-                                   {
-                                       for (int i=-1;i<=1;i++)
-                                       {
-                                           for (int j=-1;j<=1;j++)
-                                           {
-                                               try {
-                                               view.myTeam[c.getX()+i][c.getY()+j].getStyleClass().add("possibleDeplacement");
-                                               }catch (ArrayIndexOutOfBoundsException e){}
+                                       for (Case c : selected.getPositions()) {
+                                           for (int i = -1; i <= 1; i++) {
+                                               for (int j = -1; j <= 1; j++) {
+                                                   try {
+                                                       view.myTeam[c.getX() + i][c.getY() + j].getStyleClass().add("possibleDeplacement");
+                                                   } catch (ArrayIndexOutOfBoundsException e) {
+                                                   }
+                                               }
                                            }
                                        }
                                    }
