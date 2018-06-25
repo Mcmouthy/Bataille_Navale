@@ -519,7 +519,7 @@ public class AmiralController extends Controller implements EventHandler<MouseEv
     {
         Button shouttedButton = (Button) view.getScene().lookup("#"+id);
 
-        if (isShotted==1){
+        if (isShotted==1 && shouttedButton.getStyleClass().contains("bateau")){
             // on a touche
             shouttedButton.getStyleClass().add("shotted");
 
